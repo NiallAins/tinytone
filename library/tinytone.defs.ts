@@ -1,17 +1,4 @@
-export type tNote = number | string;
-export type tNoteArray = [
-    note:     tNote,
-    start?:   number,
-    sustain?: number,
-    tone?:    number
-];
-export type tNoteObject = {
-    note:     tNote,
-    start?:   number,
-    sustain?: number,
-    tone?:    number
-};
-export interface iTone {
+export declare const Tone: {
     play(
         note?: tNote | tNote[] | tNoteArray[] | tNoteObject[],
         tone?: number
@@ -25,5 +12,18 @@ export interface iTone {
     finish(
         id?: number
     ): void;
-}
-export declare const Tone: iTone;
+};
+
+export type tNote = number | string;
+export type tNoteArray = [
+    note:     tNote,
+    start?:   number,
+    sustain?: number,
+    tone?:    number
+];
+export type tNoteObject = {
+    note:     tNote,
+    start?:   number,
+    sustain?: number,
+    tone?:    number
+};

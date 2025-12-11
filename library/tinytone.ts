@@ -2,7 +2,13 @@
 // Public definitions
 //
 
-import { tNote, tNoteObject, tNoteArray, iTone } from './tinytone.defs';
+import { tNote, tNoteObject, tNoteArray, Tone as iTone } from './tinytone.defs';
+
+//
+// Private definitions
+//
+
+declare const $_TONES_: tTonesEncoded;
 
 type tNoteObjectSet = {
     freq:    number,
@@ -10,12 +16,6 @@ type tNoteObjectSet = {
     sustain: number,
     tone:    number
 };
-
-//
-// Private definitions
-//
-
-declare const $_TONES_: tTonesEncoded;
 
 // Reverb, Distortion, Vibrato, Tremolo
 type eEffectType = 0 | 1 | 2 | 3;
@@ -142,7 +142,7 @@ type tTex = {
 // Library
 //
 
-const Tone: iTone = (function(tonesEncoded: tTonesEncoded) {
+const Tone: typeof iTone = (function(tonesEncoded: tTonesEncoded) {
 
     const
         MAX_NOTES = 8,

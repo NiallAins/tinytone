@@ -90,7 +90,7 @@ You can also import the library as a module, or import the library into a typesc
 #### Full API
 
 ```ts
-interface iTone {
+interface Tone {
     play(
         note: tNote | tNote[] | tNoteArray[] | tNoteObject[],
         tone: number = 0
