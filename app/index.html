@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        TinyTone | A simple synth library
+    </title>
+    <link
+        rel="stylesheet"
+        href="./styles/style.css"
+    />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    />
+</head>
+
+<body class="
+    body
+    body--theme-dark
+">
+    <div
+        id="EL_PAGE"
+        class="
+            page__container
+            page--create
+        "
+    >
+        <header class="header">
+            <h1 class="header__title">
+                TinyTone
+
+                <span class="header__title-version">
+                    v 0.1.0
+                </span>
+            </h1>
+
+            <div
+                class="header__tabs"
+                role="tablist"
+            >
+                <label>
+                    Create
+                    <input
+                        type="radio"
+                        role="tab"
+                        name="page"
+                        value="0"
+                        oninput="setPage(1)"
+                        checked
+                    />
+                </label>
+                <label>
+                    Export
+                    <input
+                        type="radio"
+                        role="tab"
+                        name="page"
+                        value="1"
+                        oninput="setPage(2)"
+                    />
+                </label>
+                <label>
+                    About
+                    <input
+                        type="radio"
+                        role="tab"
+                        name="page"
+                        value="2"
+                        oninput="setPage(0)"
+                    />
+                </label>
+                <button
+                    class="header__theme"
+                    onclick="toggleTheme()"
+                ></button>
+            </div>
+        </header>
+
+        <div
+            id="EL_GRID"
+            class="
+                page__create
+                grid
+                grid--tex
+            "
+        >
+            <div class="empty"></div>
+
+            <div class="efx">
+                <div
+                    id="EL_EFX_INPUTS"
+                    class="efx__inputs"
+                ></div>
+                <div
+                    id="EL_EFX_CANVAS"
+                    class="efx__canvas"
+                ></div>
+            </div>
+
+            <div class="envel">
+                <div
+                    id="EL_ENVEL_INPUTS"
+                    class="envel__inputs"
+                >
+                    <!-- Envel key up -->
+                    <div class="envel__inputs-row">
+                        <span>
+                            Key up
+                        </span>
+                        <label
+                            for="EL_ENVEL_INPUTS_KEYUP_0"
+                            class="radio-button"
+                        >
+                            Complete
+                            <input
+                                id="EL_ENVEL_INPUTS_KEYUP_0"
+                                type="radio"
+                                class="radio-button__input"
+                                name="envelKeyUp"
+                                value="0"
+                                checked
+                            />
+                        </label>
+                        <label
+                            for="EL_ENVEL_INPUTS_KEYUP_1"
+                            class="radio-button"
+                        >
+                            Release
+                            <input
+                                id="EL_ENVEL_INPUTS_KEYUP_1"
+                                type="radio"
+                                class="radio-button__input"
+                                name="envelKeyUp"
+                                value="1"
+                            />
+                        </label>
+                    </div>
+
+                    <!-- Envel key hold -->
+                    <div class="envel__inputs-row">
+                        <span>
+                            Key hold
+                        </span>
+                        <label
+                            for="EL_ENVEL_INPUTS_KEYHOLD_0"
+                            class="radio-button"
+                        >
+                            Ignore
+                            <input
+                                id="EL_ENVEL_INPUTS_KEYHOLD_0"
+                                type="radio"
+                                class="radio-button__input"
+                                name="envelKeyHold"
+                                value="0"
+                            />
+                        </label>
+                        <label
+                            for="EL_ENVEL_INPUTS_KEYHOLD_1"
+                            class="radio-button"
+                        >
+                            Sustain
+                            <input
+                                id="EL_ENVEL_INPUTS_KEYHOLD_1"
+                                type="radio"
+                                class="radio-button__input"
+                                name="envelKeyHold"
+                                value="1"
+                                checked
+                            />
+                        </label>
+                        <label
+                            for="EL_ENVEL_INPUTS_KEYHOLD_2"
+                            class="radio-button"
+                        >
+                            Sustain all
+                            <input
+                                id="EL_ENVEL_INPUTS_KEYHOLD_2"
+                                type="radio"
+                                class="radio-button__input"
+                                name="envelKeyHold"
+                                value="2"
+                            />
+                        </label>
+                        <label
+                            for="EL_ENVEL_INPUTS_KEYHOLD_3"
+                            class="radio-button"
+                        >
+                            Loop
+                            <input
+                                id="EL_ENVEL_INPUTS_KEYHOLD_3"
+                                type="radio"
+                                class="radio-button__input"
+                                name="envelKeyHold"
+                                value="3"
+                            />
+                        </label>
+                    </div>
+
+                    <!-- Trigger arpeggio -->
+                    <div class="envel__inputs-row">
+                        <span>
+                            <label
+                                for="EL_ENVEL_INPUTS_ARPEGG"
+                                class="checkbox"
+                            >
+                                Arpeggio
+                                <input
+                                    id="EL_ENVEL_INPUTS_ARPEGG"
+                                    type="checkbox"
+                                    class="checkbox__input"
+                                    name="envelKeyHold"
+                                    value="3"
+                                />
+                            </label>
+                        </span>
+                    </div>
+
+                    <!-- Arpeggio notes -->
+                    <div class="envel__inputs-row">
+                        <label
+                            for="EL_ENVEL_INPUTS_TYPE_0"
+                            class="radio-button"
+                        >
+                            Major
+                            <input
+                                id="EL_ENVEL_INPUTS_TYPE_0"
+                                type="radio"
+                                class="radio-button__input"
+                                name="envelArpeggType"
+                                value="0"
+                                checked
+                            />
+                        </label>
+                        <label
+                            for="EL_ENVEL_INPUTS_TYPE_1"
+                            class="radio-button"
+                        >
+                            Minor
+                            <input
+                                id="EL_ENVEL_INPUTS_TYPE_1"
+                                type="radio"
+                                class="radio-button__input"
+                                name="envelArpeggType"
+                                value="1"
+                            />
+                        </label>
+                        <label
+                            for="EL_ENVEL_INPUTS_TYPE_2"
+                            class="radio-button"
+                        >
+                            Maj 7th
+                            <input
+                                id="EL_ENVEL_INPUTS_TYPE_2"
+                                type="radio"
+                                class="radio-button__input"
+                                name="envelArpeggType"
+                                value="2"
+                            />
+                        </label>
+                        <label
+                            for="EL_ENVEL_INPUTS_TYPE_3"
+                            class="radio-button"
+                        >
+                            Min 7th
+                            <input
+                                id="EL_ENVEL_INPUTS_TYPE_3"
+                                type="radio"
+                                class="radio-button__input"
+                                name="envelArpeggType"
+                                value="3"
+                            />
+                        </label>
+                        <label
+                            for="EL_ENVEL_INPUTS_TYPE_4"
+                            class="radio-button"
+                        >
+                            Dom 7th
+                            <input
+                                id="EL_ENVEL_INPUTS_TYPE_4"
+                                type="radio"
+                                class="radio-button__input"
+                                name="envelArpeggType"
+                                value="3"
+                            />
+                        </label>
+                    </div>
+
+                    <!-- Arpeggio direction -->
+                    <div class="envel__inputs-row">
+                        <label
+                            for="EL_ENVEL_INPUTS_DIRECTION_0"
+                            class="radio-button"
+                        >
+                            Ascend
+                            <input
+                                id="EL_ENVEL_INPUTS_DIRECTION_0"
+                                type="radio"
+                                class="radio-button__input"
+                                name="envelArpeggDirection"
+                                value="0"
+                                checked
+                            />
+                        </label>
+                        <label
+                            for="EL_ENVEL_INPUTS_DIRECTION_1"
+                            class="radio-button"
+                        >
+                            Decend
+                            <input
+                                id="EL_ENVEL_INPUTS_DIRECTION_1"
+                                type="radio"
+                                class="radio-button__input"
+                                name="envelArpeggDirection"
+                                value="1"
+                            />
+                        </label>
+                        <label
+                            for="EL_ENVEL_INPUTS_DIRECTION_2"
+                            class="radio-button"
+                        >
+                            Ascend first
+                            <input
+                                id="EL_ENVEL_INPUTS_DIRECTION_2"
+                                type="radio"
+                                class="radio-button__input"
+                                name="envelArpeggDirection"
+                                value="2"
+                            />
+                        </label>
+                        <label
+                            for="EL_ENVEL_INPUTS_DIRECTION_3"
+                            class="radio-button"
+                        >
+                            Decend first
+                            <input
+                                id="EL_ENVEL_INPUTS_DIRECTION_3"
+                                type="radio"
+                                class="radio-button__input"
+                                name="envelArpeggDirection"
+                                value="3"
+                            />
+                        </label>
+                    </div>
+
+                    <!-- Arpeggio detach -->
+                    <div class="envel__inputs-row">
+                        <span>
+                            <button
+                                id="EL_ENVEL_INPUTS_DETACH"
+                                class="envel__inputs-detach"
+                            >
+                                Detach notes
+                            </button>
+                        </span>
+                    </div>
+                </div>
+
+                <div
+                    id="EL_ENVEL_CANVAS"
+                    class="envel__canvas"
+                ></div>
+            </div>
+
+            <div class="tex">
+                <div
+                    id="EL_INP_TEX_CONTAIN"
+                    class="tex__inputs"
+                ></div>
+
+                <div
+                    id="EL_CAN_TEX_CONTAIN"
+                    class="tex__canvas"
+                >
+                    <label
+                        for="EL_TEX_INP_GAIN"
+                        class="
+                            tex__canvas--degain
+                            tex__canvas-label
+                        "
+                    >
+                        Relative gain
+                    </label>
+                    <input
+                        id="EL_TEX_INP_DEGAIN"
+                        class="
+                            tex__canvas--degain
+                            tex__canvas-input
+                        "
+                        type="range"
+                        min="0.25"
+                        max="1.25"
+                        value="1"
+                        step="0.01"
+                    />
+                    <div class="tex__canvas--detune">
+                        <input
+                            id="EL_TEX_INP_DETUNE"
+                            class="tex__canvas-input"
+                            type="range"
+                            min="0"
+                            max="11"
+                            value="0"
+                            step="0.25"
+                        />
+                        <label
+                            for="EL_TEX_INP_DETUNE"
+                            class="tex__canvas-label"
+                        >
+                            Relative pitch
+                        </label>
+                    </div>
+                    <div class="tex__canvas--octave">
+                        <input
+                            id="EL_TEX_INP_OCTAVE"
+                            class="tex__canvas-input"
+                            type="range"
+                            min="-2"
+                            max="2"
+                            value="0"
+                            step="1"
+                        />
+                        <label
+                            for="EL_TEX_INP_OCTAVE"
+                            class="tex__canvas-label"
+                        >
+                            Octave
+                        </label>
+                    </div>
+                    <canvas
+                        id="EL_CAN_TEX"
+                        class="tex__canvas-canvas"
+                    ></canvas>
+                </div>
+            </div>
+
+            <div
+                id="EL_TONE_CONTAIN"
+                class="tone"
+            >
+                <div
+                    id="EL_TONE_SCROLL"
+                    class="tone__scroll-contain"
+                >
+                    <canvas
+                        id="EL_CAN_TONE"
+                        class="tone__canvas"
+                    ></canvas>
+
+                    <div class="tone__grid">
+                        <div class="
+                            tone__grid-head
+                            tone__grid-head--efx
+                        ">
+                            Effect
+                        </div>
+                        <div
+                            id="EL_TONE_EFX" 
+                            class="
+                                tone__grid-body
+                                tone__grid-body--efx
+                            "
+                        ></div>
+
+                        <div class="tone__grid-head">
+                            Envelope
+                        </div>
+                        <div
+                            id="EL_TONE_ENVEL"
+                            class="tone__grid-body"
+                        ></div>
+
+                        <div class="tone__grid-head">
+                            Texture
+                        </div>
+                        <div
+                            id="EL_TONE_TEX"
+                            class="tone__grid-body"
+                        ></div>
+
+                        <div class="
+                            tone__grid-head 
+                            tone__grid-head--tone
+                        "></div>
+                        <div
+                            id="EL_TONE_TONE"
+                            class="
+                                tone__grid-body
+                                tone__grid-body--tone
+                            "
+                        ></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="keys">
+                <div
+                    id="EL_KEYS_CONTAIN"
+                    class="keys__container"
+                ></div>
+            </div>
+        </div>
+
+        <div class="page__export">
+            <div class="
+                page__export-section
+                page__export-lede
+            ">
+                <p>
+                    Download the TinyTone library packaged with your tones.
+                    <br/>
+                    This can be included directly on your page, imported as a module, or imported with definitions into a TypeScript project.
+                    <br/><br/>
+                    See About page for more details on usage.
+                </p>
+            </div>
+
+            <div class="page__export-section">
+                <h2>
+                    Javascript library
+                </h2>
+
+<code class="code">&lt;html&gt;
+    &lt;head&gt;
+        &lt;script src="tinytone.js"&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;button onclick="Tone.play()"&gt;
+            Play
+        &lt;/button&gt;
+    &lt;/body&gt;
+&lt;/html&gt</code>
+
+                <a
+                    class="link-button"
+                    href="javascript:void(0)"
+                    onclick="downloadLibraryJs()"
+                >
+                    Download tinytone.js
+                    <span class="link-button--detail">
+                        <span ID="EL_EXPORT_SIZE_0"></span>
+                        KB
+                    </span>
+                </a>
+            </div>
+
+            <div class="page__export-section">
+                <h2>
+                    Javascript module
+                </h2>
+
+<code class="code">&lt;html&gt;
+    &lt;head&gt;
+        &lt;script type="module"&gt;
+            import { Tone } from './tinytone.js';
+            window.Tone = Tone;
+        &lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;button onclick="Tone.play()"&gt;
+            Play
+        &lt;/button&gt;
+    &lt;/body&gt;
+&lt;/html&gt</code>
+
+                <a
+                    class="link-button"
+                    href="javascript:void(0)"
+                    onclick="downloadLibraryMJs()"
+                >
+                    Download tinytone.js module
+                    <span class="link-button--detail">
+                        <span ID="EL_EXPORT_SIZE_1"></span>
+                        KB
+                    </span>
+                </a>
+            </div>
+
+            <div class="page__export-section">
+                <h2>
+                    Typescript definitions
+                </h2>
+
+<code class="code">import { Tone, tNoteObject } from './tinytone.js';
+
+const NOTES: tNoteObject[] = [
+    {
+        note:    'A',
+        sustain: 1500
+    },
+    {
+        note:    'C',
+        sustain: 1500
+    }
+];
+
+TONE.play(NOTES);</code>
+
+                <a
+                    class="link-button"
+                    href="javascript:void(0)"
+                    onclick="downloadLibraryDTs()"
+                >
+                    Download tinytone.d.ts
+                    <span class="link-button--detail">
+                        0.5 KB
+                    </span>
+                </a>
+            </div>
+        </div>
+
+        <div class="page__about">
+            <div class="
+                page__about-section
+                page__about-lede
+            ">
+                <p>
+                    <strong>TinyTone</strong> is a web app and a small library built on the native JavaScript Web Audio API.
+                    <br/>
+                    The app allows you to create tones by combining audio textures, envelopes, and effects.</br>
+                    The library allows you to then import and use these tones in your project.
+                </p>
+            </div>
+
+            <div class="page__about-section">
+                <h2>
+                    Creating tones
+                </h2>
+                <p>
+                    In the <strong>Create</strong> tab, tones are created by combining audio textures, envelopes, and effects.
+                    <br/>
+                    A texture is a combination of sine waves that produce a sound.
+                    <br/>
+                    An envelope controls how the volume of that sound changes when it is played.
+                    <br/>
+                    Effects further alter the quality of the sound.
+                </p>
+            </div>
+
+            <div class="page__about-section">
+                <h2>
+                    Exporting tones
+                </h2>
+                <p>
+                    In the <strong>Export</strong> tab, you can download a JavaScript file containing your tones, and a small library to play them.
+                    You can then include this file in your project.
+                    </br>
+                    The simplest implementation is to add this file to the root folder of your project,
+                    then include it in the <code class="code code--inline">&lt;head&gt;</code> element of your html.
+                    <br/>
+                    You can also import the library as a module, or import the library into a typescript project along with type definitions.
+
+<code class="code">&lt;html&gt;
+    &lt;head&gt;
+        &lt;script src="tinytone.js"&gt;&lt;/script&gt;
+        &lt;script&gt;
+            Tone.play();
+        &lt;/script&gt;
+    &lt;/head&gt;
+&lt;/html&gt</code>
+
+
+                </p>
+            </div>
+
+            <div class="page__about-section">
+                <h2>
+                    Using tones
+                </h2>
+
+                <p>
+
+                    Play a note of a given frequency
+
+<code class="code">Tone.play(440);</code>
+
+
+                    Play a note of a given name and octave
+
+<code class="code">Tone.play('A');
+Tone.play('A#');
+Tone.play('Ab');
+Tone.play('A#3');</code>
+
+
+                    Play a note with a given tone
+
+<code class="code">Tone.play('A', 2);</code>
+
+
+                    Play several notes in succession
+
+<code class="code">Tone.play(['A', 'C', 'E']);</code>
+
+
+                    Play a note after a given time, with a given sustain length
+
+<code class="code">Tone.play([
+    ['A', 1000, 200]
+]);
+
+// or
+
+Tone.play([
+    { note: 'A', start: 1000, sustain: 200 }
+]);</code>
+
+
+                    Play several notes with given times, sustains, and tones
+
+<code class="code">Tone.play([
+    ['A',   0, 400, 1],
+    ['C', 100, 300, 2],
+    ['E', 200, 200, 1]
+]);
+
+// or
+
+Tone.play([
+    { note: 'A', start:   0, sustain: 400, tone: 1 },
+    { note: 'C', start: 100, sustain: 300, tone: 2 },
+    { note: 'E', start: 200, sustain: 200, tone: 1 }
+]);</code>
+
+
+                    Start a note, then end it later
+
+<code class="code">const ID = Tone.start('A');
+// ...
+Tone.finish(ID);</code>
+
+
+                    Start several notes, then end them later
+<code class="code">const ID = Tone.start([
+    ['A',   0, 400, 1],
+    ['C', 100, 300, 2],
+    ['E', 200, 200, 1]
+]);
+// ...
+Tone.finish(ID);</code>
+
+
+                    Finish all started notes
+
+                    <code class="code">Tone.finish();</code>
+                </p>
+            </div>
+
+            <div class="page__about-section">
+                <h2>
+                    Full API
+                </h2>
+                <p>
+
+<code class="code">type note = number | string&lt;/[A-G][b#]{0,2}[0-9]*/&gt;
+
+type tNoteArray = [
+    note,
+    start:   number = 0,
+    sustain: number = 0,
+    tone:    number = 0
+]
+
+type tNoteObject = {
+    note:    note,
+    start:   number = 0,
+    sustain: number = 0,
+    tone:    number = 0
+}
+
+interface iTone {
+    play(
+        note: tNote | tNote[] | tNoteArray[] | tNoteObject[],
+        tone: number = 0
+    ): void;
+
+    start(
+        note: tNote | tNoteArray[] | tNoteObject[],
+        tone: number = 0
+    ): number;
+
+    finish(
+        id?: number
+    ): void;
+}
+
+const Tone implements iTone;</code>
+
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="./scripts/common.js"></script>
+    <script src="./scripts/inputRangeGraph.js"></script>
+    <script src="./scripts/presets.js"></script>
+    <script src="./scripts/node.js"></script>
+    <script src="./scripts/envelope.js"></script>
+    <script src="./scripts/texture.js"></script>
+    <script src="./scripts/tone.js"></script>
+    <script src="./scripts/effect.js"></script>
+    <script src="./scripts/sound.js"></script>
+    <script src="./scripts/keys.js"></script>
+    <script src="./scripts/export.js"></script>
+    <script src="./scripts/main.js"></script>
+</body>
+
+</html>
