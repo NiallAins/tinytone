@@ -243,7 +243,6 @@ class Node {
         if (!this.isArpeggChild && this.type === eNodeType.Envel) {
             Envel.updateMaxDuration();
         }
-        Tone._renderChart();
 
         // Focus nearest node, if deleted node is in focus
         if (this.EL_INPUT.checked) {
@@ -253,5 +252,7 @@ class Node {
                 ACTIVE_NODES[ALL_INDEX + 1 === ACTIVE_NODES.length ? ALL_INDEX - 1 : ALL_INDEX + 1].EL.click();
             }
         }
+
+        Tone._renderChart();
     }
 }

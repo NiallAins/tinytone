@@ -82,7 +82,7 @@ body {
 @media (max-width: 56rem) {
   body {
     max-width: 36rem;
-    margin: 0 auto;
+    margin: 0 auto 8rem;
   }
 }
 
@@ -456,6 +456,7 @@ input[type=range]:focus-visible::-webkit-slider-thumb {
 
 .envel {
   gap: 1rem;
+  overflow: hidden;
 }
 .envel__canvas {
   flex: 0 0 calc(100% - 26rem + 4rem);
@@ -719,12 +720,11 @@ input[type=range]:focus-visible::-webkit-slider-thumb {
 
 .tone {
   position: relative;
-  overflow-x: auto;
 }
 .tone:after {
   content: "";
   position: absolute;
-  inset: 0 0 0 auto;
+  inset: 0 0 2rem auto;
   width: 2rem;
   background: linear-gradient(-90deg, var(--c-bg-secondary) 1rem, transparent);
 }
@@ -732,6 +732,19 @@ input[type=range]:focus-visible::-webkit-slider-thumb {
   position: relative;
   padding-bottom: 1.25rem;
   overflow-x: auto;
+}
+.tone__scroll-contain::-webkit-scrollbar {
+  height: 0.75rem;
+}
+.tone__scroll-contain::-webkit-scrollbar-track {
+  background: transparent;
+}
+.tone__scroll-contain::-webkit-scrollbar-thumb {
+  border-radius: 0.5rem;
+  background-color: var(--c-bg);
+}
+.tone__scroll-contain::-webkit-scrollbar-thumb:hover {
+  background-color: var(--c-bg-d);
 }
 .tone__canvas {
   position: absolute;
@@ -747,6 +760,8 @@ input[type=range]:focus-visible::-webkit-slider-thumb {
 .tone__grid-head {
   position: sticky;
   left: 0;
+  right: auto;
+  width: 2rem;
   z-index: 20;
   text-align: center;
   font-size: 0.875rem;
@@ -892,6 +907,10 @@ input[type=range]:focus-visible::-webkit-slider-thumb {
 .tone__node-input--last-visible {
   visibility: hidden;
 }
+.tone__node--tex .tone__node-input--last-visible {
+  visibility: visible;
+}
+
 .tone--show-inputs .tone__node-input--last-visible {
   visibility: visible;
 }
@@ -930,6 +949,14 @@ input[type=range]:focus-visible::-webkit-slider-thumb {
   position: relative;
   margin-top: auto;
 }
+@media (max-width: 56rem) {
+  .keys {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 50;
+    background-color: var(--c-bg) !important;
+  }
+}
 .keys__container {
   display: flex;
   position: relative;
@@ -964,8 +991,14 @@ input[type=range]:focus-visible::-webkit-slider-thumb {
   overflow: hidden;
 }
 @media (max-width: 56rem) {
+  .keys__key {
+    height: 6.5rem;
+  }
   .keys__key--second-octave {
     display: none;
+  }
+  .keys__key:nth-child(13) {
+    border-top-right-radius: 0.375rem;
   }
 }
 .keys__key:first-child:not(.keys__key--flat) {
@@ -999,6 +1032,11 @@ input[type=range]:focus-visible::-webkit-slider-thumb {
 .keys__key--flat:focus-visible {
   z-index: 40;
   box-shadow: 0 0 0 0.25rem var(--c-bg);
+}
+@media (max-width: 56rem) {
+  .keys__key--flat {
+    height: 3.25rem;
+  }
 }
 .keys__key--flat.keys__key--active, .keys__key--flat:hover, .keys__key--flat:focus-visible {
   background-color: #888888;

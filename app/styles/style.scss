@@ -82,6 +82,7 @@ $w-node-connect-top: $w-node-connect-gap + $w-node-connect;
 $w-node-connect-bottom: $w-node-connect-gap + $w-outline;
 $w-node-connect-kink: $w-node-connect - $w-outline;
 $h-key: 7.5rem;
+$h-key-mobile: 6.5rem;
 
 // Z indices
 $z-tone-under-canvas: 9;
@@ -92,6 +93,7 @@ $z-key: 10;
 $z-key-focus: 20;
 $z-key-flat: 30;
 $z-key-flat-focus: 40;
+$z-keys-mobile: 50;
 
 // Font
 $f-family-title: "Noto Serif", Helvetica, sans-serif;
@@ -250,7 +252,7 @@ body {
 
     @include small-viewport {
         max-width: $w-page-sm;
-        margin: 0 auto;
+        margin: 0 auto 8rem;
     }
 }
 
@@ -688,6 +690,7 @@ input[type=range] {
     $w-can-arp: calc(100% - #{ $w-inp - $w-gap + $w-arp } + $w-extra);
 
     gap: $w-gap;
+    overflow: hidden;
 
     &__canvas {
         flex: 0 0 $w-can;
@@ -982,12 +985,11 @@ input[type=range] {
     $w-button-pad: 0.5rem;
 
     position: relative;
-    overflow-x: auto;
 
     &:after {
         content: '';
         position: absolute;
-        inset: 0 0 0 auto;
+        inset: 0 0 2rem auto;
         width: 2rem;
         background: linear-gradient(-90deg, $c-bg-secondary 1rem, transparent);
     }
@@ -997,6 +999,25 @@ input[type=range] {
         position: relative;
         padding-bottom: 1.25rem;
         overflow-x: auto;
+    }
+
+    &__scroll-contain { 
+        &::-webkit-scrollbar {
+            height: 0.75rem;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            border-radius: 0.5rem;
+            background-color: $c-bg;
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+            background-color: $c-bg-d;
+        }
     }
 
     &__canvas {
@@ -1014,6 +1035,8 @@ input[type=range] {
         &-head {
             position: sticky;
             left: 0;
+            right: auto;
+            width: 2rem;
             z-index: $z-tone-row-head;
             text-align: center;
             font-size: $f-size-md;
@@ -1201,6 +1224,10 @@ input[type=range] {
             &--last-visible {
                 visibility: hidden;
 
+                @include parent-with(--tex, 1) {
+                    visibility: visible;
+                }
+
                 @include parent-with(--show-inputs) {
                     visibility: visible;
                 }
@@ -1248,6 +1275,13 @@ input[type=range] {
     position: relative;
     margin-top: auto;
 
+    @include small-viewport {
+        position: fixed;
+        inset: auto 0 0 0;
+        z-index: $z-keys-mobile;
+        background-color: $c-bg !important;
+    }
+
     &__container {
         display: flex;
         position: relative;
@@ -1283,8 +1317,14 @@ input[type=range] {
         overflow: hidden;
 
         @include small-viewport {
+            height: $h-key-mobile;
+
             &--second-octave {
                 display: none;
+            }
+
+            &:nth-child(13) {
+                border-top-right-radius: $w-key-rad;
             }
         }
 
@@ -1327,6 +1367,10 @@ input[type=range] {
             &:focus-visible {
                 z-index: $z-key-flat-focus;
                 box-shadow: 0 0 0 0.25rem $c-bg;
+            }
+
+            @include small-viewport {
+                height: $h-key-mobile * 0.5;
             }
         }
 
