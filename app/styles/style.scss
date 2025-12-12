@@ -708,6 +708,7 @@ input[type=range] {
 
         @include small-viewport {
             flex: unset;
+            margin-right: unset;
         }
 
         &--arpegg {
@@ -751,6 +752,22 @@ input[type=range] {
             gap: 0.5rem;
             align-items: center;
             margin-bottom: 0.5rem;
+
+            @include small-viewport {
+                display: flex;
+
+                & > * {
+                    width: 100%;
+                }
+                
+                &:nth-child(1),
+                &:nth-child(2) {
+                    :nth-child(1) {
+                        width: 5.5rem;
+                        padding-right: 0.25rem;
+                    }
+                }
+            }
 
             & > * {
                 grid-column: span 4;

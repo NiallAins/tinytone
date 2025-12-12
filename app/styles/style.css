@@ -473,6 +473,7 @@ input[type=range]:focus-visible::-webkit-slider-thumb {
 @media (max-width: 56rem) {
   .envel__inputs {
     flex: unset;
+    margin-right: unset;
   }
 }
 .envel__inputs--arpegg {
@@ -510,6 +511,18 @@ input[type=range]:focus-visible::-webkit-slider-thumb {
   gap: 0.5rem;
   align-items: center;
   margin-bottom: 0.5rem;
+}
+@media (max-width: 56rem) {
+  .envel__inputs-row {
+    display: flex;
+  }
+  .envel__inputs-row > * {
+    width: 100%;
+  }
+  .envel__inputs-row:nth-child(1) :nth-child(1), .envel__inputs-row:nth-child(2) :nth-child(1) {
+    width: 5.5rem;
+    padding-right: 0.25rem;
+  }
 }
 .envel__inputs-row > * {
   grid-column: span 4;
