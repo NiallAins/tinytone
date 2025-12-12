@@ -206,8 +206,6 @@ const
         toneStrokeArcRad: 1*REM
     };
 
-    console.log(WIDTH);
-
 const
     FONT_FAMILY = 'Helvetica',
     FONT_CHART = WIDTH.fontChart + 'px ' + FONT_FAMILY;

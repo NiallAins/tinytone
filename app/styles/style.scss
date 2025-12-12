@@ -987,10 +987,18 @@ input[type=range] {
 
         &--detune {
             inset: auto 28% 0 2rem;
+
+            @include small-viewport {
+                inset: auto 24% 0 1.625rem;
+            }
         }
 
         &--octave {
             inset: auto 0 0 72.5%;
+
+            @include small-viewport {
+                inset: auto -0.5rem 0 69.5%;
+            }
         }
 
         &--detune &-label {

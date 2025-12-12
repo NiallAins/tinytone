@@ -671,17 +671,22 @@ class InputRangeGraph {
         this.ELEMENT.appendChild(this.CANVAS);
 
         // Mouse event listeners
-        this.CANVAS.onmousemove  = e => this._onmousemove(e);
-        this.CANVAS.ontouchmove  = e => this._onmousemove(e, true);
+        this.CANVAS.onmousemove = e => this._onmousemove(e);
+        this.CANVAS.ontouchmove = e => {
+            if (this._inputActive > -1) {
+                e.preventDefault();
+            }
+            this._onmousemove(e, true);
+        };
         this.CANVAS.onmousedown  = e => this._onmousedown(e);
         this.CANVAS.ontouchstart = e => this._onmousedown(e, true);
         this.CANVAS.onmouseup    = e => this._onmouseup(e);
         this.CANVAS.ontouchend   = e => this._onmouseup(e, true);
         document.body.addEventListener('mousemove',  e => this._inputActive > -1 ? this._onmousemove(e) : null);
         document.body.addEventListener('mouseup',    e => this._onmouseup(e));
-        document.body.addEventListener('touchend',   e => this._onmouseup(e));
+        document.body.addEventListener('touchend',   e => this._onmouseup(e, true));
         document.body.addEventListener('mouseleave', e => this._onmouseup(e));
-        document.body.addEventListener('touchleave', e => this._onmouseup(e));
+        document.body.addEventListener('touchleave', e => this._onmouseup(e, true));
 
         // Rendering
         if (renderCallback) {
@@ -823,17 +828,14 @@ class InputRangeGraph {
                 };
     }
 
-    _onmousemove(e, isTouch = false) {
-        if (isTouch) {
-            e.preventDefault();
-            e = e.touches[0];
-        }
+    _onmousemove(e, isTouch) {
+        e = isTouch ? e.touches[0] : e;
 
         const
             BOX = this.CANVAS.getBoundingClientRect(),
             X = e.clientX - BOX.left - this._xAxisPad[0],
             Y = e.clientY - BOX.top - this._yAxisPad[0],
-            INP_HOVER = this._nearInput(X, Y);
+            INP_HOVER = this._nearInput(X, Y, isTouch);
 
         let renderHover = false;
         this.inputs.forEach((inp, i) => {
@@ -857,17 +859,15 @@ class InputRangeGraph {
         }
     }
 
-    _onmousedown(e, isTouch = false) {
-        if (isTouch) {
-            e.preventDefault();
-            e = e.touches[0];
-        }
+    _onmousedown(e, isTouch) {
+        e = isTouch ? e.touches[0] : e;
 
         const
             BOX = this.CANVAS.getBoundingClientRect(),
             INPUT = this._nearInput(
                 e.clientX - BOX.left - this._xAxisPad[0],
-                e.clientY - BOX.top  - this._yAxisPad[0]
+                e.clientY - BOX.top  - this._yAxisPad[0],
+                isTouch
             );
         if (INPUT > -1) {
             this._inputActive = INPUT;
@@ -898,8 +898,9 @@ class InputRangeGraph {
         this.ELEMENT.dispatchEvent(new Event('input', { bubbles: true }));
     }
 
-    _nearInput(x, y) {
-        const PT_RAD_SQR = 100;
+    _nearInput(x, y, isTouch = false) {
+        const PT_RAD_SQR = (isTouch ? 24 : 10)**2;
+
         return this.inputs.findLastIndex(inp =>
             !inp.disabled &&
             (
