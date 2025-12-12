@@ -185,8 +185,8 @@ const
         axisStroke: 2,
         envelStroke: 3,
         thumbStroke: 1,
-        thumbRad: 0.5*REM,
-        thumbRadOuter: 0.5*REM + (3 * 2),
+        thumbRad: _cssVar('w-thumb-rad', true),
+        thumbRadOuter:_cssVar('w-thumb-rad', true) + (3 * 2),
         cursor: 0.5*REM,
         efxStroke: 2,
         texStroke: 2,
@@ -205,6 +205,8 @@ const
         toneStrokeRad: 8,
         toneStrokeArcRad: 1*REM
     };
+
+    console.log(WIDTH);
 
 const
     FONT_FAMILY = 'Helvetica',

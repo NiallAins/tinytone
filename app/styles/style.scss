@@ -66,6 +66,7 @@ $w-page-sm: 36rem;
 $w-text-contain: 50rem;
 $w-page-pad: 1rem;
 $w-thumb-rad: 0.5rem;
+$w-thumb-rad-mobile: 0.625rem;
 $w-outline: 0.125rem;
 $w-radius: 0.25rem;
 $w-radius-lg: 1rem;
@@ -193,6 +194,11 @@ $c-key-flat-hover: $c-l-fg-xl;
     --h-node:       #{ $h-node };
     --w-node-connect-bottom: #{ $w-node-connect-bottom };
     --w-node-connect-kink:   #{ $w-node-connect-kink };
+    --w-thumb-rad: #{ $w-thumb-rad };
+    
+    @include small-viewport {
+        --w-thumb-rad: #{ $w-thumb-rad-mobile };
+    }
     
     --c-highlight-count: #{ $c-highlight-count };
     --c-text:            #{ $c-text };
@@ -391,7 +397,12 @@ input[type=range] {
     background-color: $c-bg-xd;
     height: 0.25rem;
     border-radius: 0.125rem;
-    margin: $w-thumb-rad;
+    margin: var(--w-thumb-rad);
+    touch-action: none;
+
+    @include small-viewport {
+        height: 0;
+    }
 
     &.input--hide-track {
         height: 0;
@@ -407,8 +418,8 @@ input[type=range] {
     &::-webkit-slider-thumb {
         -webkit-appearance: none;
         appearance: none;
-        width: 2 * $w-thumb-rad;
-        height: 2 * $w-thumb-rad;
+        width: calc(2 * var(--w-thumb-rad));
+        height: calc(2 * var(--w-thumb-rad));
         border-radius: 100%;
         border: 1px solid $c-fg;
         background-color: $c-bg;

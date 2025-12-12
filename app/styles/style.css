@@ -18,11 +18,17 @@
   --h-node: 3.125rem;
   --w-node-connect-bottom: 0.5rem;
   --w-node-connect-kink: 0.625rem;
+  --w-thumb-rad: 0.5rem;
   --c-highlight-count: 10;
   --c-text: var(--c-fg);
   --c-text-l: var(--c-fg-l);
   --c-axis: var(--c-fg);
   --c-primary: dodgerblue;
+}
+@media (max-width: 56rem) {
+  .body {
+    --w-thumb-rad: 0.625rem;
+  }
 }
 .body--theme-light {
   --c-bg: #e2e9f0;
@@ -227,7 +233,13 @@ input[type=range] {
   background-color: var(--c-bg-xd);
   height: 0.25rem;
   border-radius: 0.125rem;
-  margin: 0.5rem;
+  margin: var(--w-thumb-rad);
+  touch-action: none;
+}
+@media (max-width: 56rem) {
+  input[type=range] {
+    height: 0;
+  }
 }
 input[type=range].input--hide-track {
   height: 0;
@@ -240,8 +252,8 @@ input[type=range]:focus, input[type=range]:focus-visible {
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 1rem;
-  height: 1rem;
+  width: calc(2 * var(--w-thumb-rad));
+  height: calc(2 * var(--w-thumb-rad));
   border-radius: 100%;
   border: 1px solid var(--c-fg);
   background-color: var(--c-bg);

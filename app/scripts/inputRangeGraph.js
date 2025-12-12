@@ -677,7 +677,7 @@ class InputRangeGraph {
         this.CANVAS.ontouchstart = e => this._onmousedown(e, true);
         this.CANVAS.onmouseup    = e => this._onmouseup(e);
         this.CANVAS.ontouchend   = e => this._onmouseup(e, true);
-        document.body.addEventListener('mousemove', e => this._inputActive > -1 ? this._onmousemove(e) : null);
+        document.body.addEventListener('mousemove',  e => this._inputActive > -1 ? this._onmousemove(e) : null);
         document.body.addEventListener('mouseup',    e => this._onmouseup(e));
         document.body.addEventListener('touchend',   e => this._onmouseup(e));
         document.body.addEventListener('mouseleave', e => this._onmouseup(e));
