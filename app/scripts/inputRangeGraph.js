@@ -671,14 +671,17 @@ class InputRangeGraph {
         this.ELEMENT.appendChild(this.CANVAS);
 
         // Mouse event listeners
-        this.CANVAS.onmousemove = this.CANVAS.ontouchmove = this._onmousemove.bind(this);
+        this.CANVAS.onmousemove  = e => this._onmousemove(e);
+        this.CANVAS.ontouchmove  = e => this._onmousemove(e, true);
+        this.CANVAS.onmousedown  = e => this._onmousedown(e);
+        this.CANVAS.ontouchstart = e => this._onmousedown(e, true);
+        this.CANVAS.onmouseup    = e => this._onmouseup(e);
+        this.CANVAS.ontouchend   = e => this._onmouseup(e, true);
         document.body.addEventListener('mousemove', e => this._inputActive > -1 ? this._onmousemove(e) : null);
-        this.CANVAS.onmousedown = this.CANVAS.ontouchstart = this._onmousedown.bind(this);
-        this.CANVAS.onmouseup = this.CANVAS.ontouchend = this._onmouseup.bind(this);
-        document.body.addEventListener('mouseup', this._onmouseup.bind(this));
-        document.body.addEventListener('touchend', this._onmouseup.bind(this));
-        document.body.addEventListener('mouseleave', this._onmouseup.bind(this));
-        document.body.addEventListener('touchleave', this._onmouseup.bind(this));
+        document.body.addEventListener('mouseup',    e => this._onmouseup(e));
+        document.body.addEventListener('touchend',   e => this._onmouseup(e));
+        document.body.addEventListener('mouseleave', e => this._onmouseup(e));
+        document.body.addEventListener('touchleave', e => this._onmouseup(e));
 
         // Rendering
         if (renderCallback) {
@@ -820,7 +823,12 @@ class InputRangeGraph {
                 };
     }
 
-    _onmousemove(e) {
+    _onmousemove(e, isTouch = false) {
+        if (isTouch) {
+            e.preventDefault();
+            e = e.touches[0];
+        }
+
         const
             BOX = this.CANVAS.getBoundingClientRect(),
             X = e.clientX - BOX.left - this._xAxisPad[0],
@@ -849,7 +857,12 @@ class InputRangeGraph {
         }
     }
 
-    _onmousedown(e) {
+    _onmousedown(e, isTouch = false) {
+        if (isTouch) {
+            e.preventDefault();
+            e = e.touches[0];
+        }
+
         const
             BOX = this.CANVAS.getBoundingClientRect(),
             INPUT = this._nearInput(
