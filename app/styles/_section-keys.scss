@@ -1,0 +1,141 @@
+.keys {
+    position: relative;
+    margin-top: auto;
+
+    @include small-viewport {
+        position: fixed;
+        inset: auto 0 0 0;
+        z-index: $z-keys-mobile;
+        background-color: $c-bg !important;
+    }
+
+    &__container {
+        display: flex;
+        position: relative;
+    }
+
+    &__flat-container {
+        position: absolute;
+        top: 0;
+        display: flex;
+        width: var(--width-lg);
+        left: var(--left-lg);
+
+        @include small-viewport {
+            width: var(--width-sm);
+            left: var(--left-sm);
+        }
+    }
+
+    &__key {
+        position: relative;
+        flex: 1;
+        z-index: $z-key;
+        display: flex;
+        align-items: end;
+        height: $h-key;
+        padding: 0;
+        border: 1px solid $c-key-border;
+        border-radius: 0 0 $w-key-rad $w-key-rad;
+        margin-left: -1px;
+        background-color: $c-key;
+        cursor: pointer;
+        transition: background-color $t-fade;
+        overflow: hidden;
+
+        @include small-viewport {
+            height: $h-key-mobile;
+
+            &--second-octave {
+                display: none;
+            }
+
+            &:nth-child(13) {
+                border-top-right-radius: $w-key-rad;
+            }
+        }
+
+        &:first-child:not(&--flat) {
+            border-top-left-radius: $w-key-rad;
+        }
+
+        &:last-child:not(&--flat) {
+            border-top-right-radius: $w-key-rad;
+        }
+
+        &:hover,
+        &:focus-visible,
+        &--active {
+            background-color: $c-key-hover;
+        }
+
+        &--active {
+            transition: background-color 0s;
+        }
+
+        &:focus-visible {
+            z-index: $z-key-focus;
+            box-shadow: 0 0 0 0.25rem $c-bg;
+        }
+
+        &--flat {
+            position: relative;
+            top: 1px;
+            z-index: $z-key-flat;
+            flex: 1;
+            height: $h-key * 0.5;
+            border-color: $c-key;
+            background-color: $c-key-flat;
+            
+            .body--theme-light & {
+                border-top-width: 0px;
+            }
+
+            &:focus-visible {
+                z-index: $z-key-flat-focus;
+                box-shadow: 0 0 0 0.25rem $c-bg;
+            }
+
+            @include small-viewport {
+                height: $h-key-mobile * 0.5;
+            }
+        }
+
+        &--flat#{&}--active,
+        &--flat:hover,
+        &--flat:focus-visible {
+            background-color: $c-key-flat-hover;
+        }
+
+        &-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            width: 100%;
+            max-width: 100%;
+            text-align: center;
+            overflow: hidden;
+            color: $c-text;
+            padding-bottom: 0.375rem;
+
+            &--shortcut {
+                $w-key: 1.375rem;
+                width: $w-key;
+                height: $w-key;
+                font-size: $f-size-xs;
+                font-style: italic;
+                line-height: $w-key;
+                color: $c-text-l;
+            }
+
+            @include small-viewport {
+                display: none;
+            }
+        }
+
+        &--flat &-label--shortcut {
+            color: $c-text-xl;
+        }
+    }
+}

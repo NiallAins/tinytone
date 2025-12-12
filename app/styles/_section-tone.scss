@@ -1,0 +1,110 @@
+.tone {
+    position: relative;
+
+    &:after {
+        content: '';
+        position: absolute;
+        inset: 0 0 2rem auto;
+        width: 2rem;
+        background: linear-gradient(-90deg, $c-bg-secondary 1rem, transparent);
+    }
+
+    &,
+    &__scroll-contain {
+        position: relative;
+        padding-bottom: 1.25rem;
+        overflow-x: auto;
+    }
+
+    &__scroll-contain { 
+        &::-webkit-scrollbar {
+            height: 0.75rem;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            border-radius: 0.5rem;
+            background-color: $c-bg;
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+            background-color: $c-bg-d;
+        }
+    }
+
+    &__canvas {
+        position: absolute;
+        top: 0;
+        left: $w-row-head;
+        z-index: $z-tone-canvas;
+        pointer-events: none;
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: $w-row-head auto;
+
+        &-head {
+            position: sticky;
+            left: 0;
+            right: auto;
+            width: 2rem;
+            z-index: $z-tone-row-head;
+            text-align: center;
+            font-size: $f-size-md;
+            padding-right: 1.5rem;
+            background: linear-gradient(-90deg, transparent 0, $c-bg-secondary 1rem);
+            writing-mode: sideways-lr;
+        }
+
+        &-body {
+            display: flex;
+            align-items: center;
+            gap: $w-node-gap-x;
+            height: $h-node;
+            padding: #{ $w-node-gap-y * 0.5 } 0;
+            padding-right: 2rem;
+
+            &--tone {
+                padding-bottom: 0;
+            }
+        }
+
+        &-head,
+        &-body {
+            &--efx {
+                margin-top: $w-node-gap-y * 0.25;
+            }
+        }
+    }
+
+    &__add {
+        position: relative;
+        z-index: $z-tone-over-canvas;
+        padding: $w-tone-button-pad;
+        width: #{ $w-tone-button-height + ($w-tone-button-pad * 2) };
+        height: #{ $w-tone-button-height + ($w-tone-button-pad * 2) };
+        border-radius: 100%;
+        order: 1;
+        border: none;
+        background-color: $c-bg;
+
+        &::before,
+        &::after {
+            content: '';
+            position: absolute;
+            top: $w-tone-button-pad;
+            left: calc(50% - 1px);
+            width: 0.125rem;
+            height: $w-tone-button-height;
+            background-color: $c-text;
+        }
+
+        &::after {
+            rotate: 90deg;
+        }
+    }
+}

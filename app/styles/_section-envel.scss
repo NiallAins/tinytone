@@ -1,0 +1,157 @@
+.envel {
+    $w-gap: 1rem;
+    $w-inp: 27rem;
+    $w-arp: 5rem;
+    $w-extra: 4rem;
+    $w-can: calc(100% - #{ $w-inp - $w-gap } + $w-extra);
+    $w-can-arp: calc(100% - #{ $w-inp - $w-gap + $w-arp } + $w-extra);
+
+    gap: $w-gap;
+    overflow: hidden;
+
+    &__canvas {
+        flex: 0 0 $w-can;
+    }
+
+    &__inputs--arpegg + &__canvas {
+        flex: 0 0 $w-can-arp;
+    }
+
+    &__inputs {
+        display: flex;
+        flex-direction: column;
+        flex: 0 0 $w-inp;
+        margin-right: -$w-arp;
+
+        @include small-viewport {
+            flex: unset;
+            margin-right: unset;
+        }
+
+        &--arpegg {
+            margin-right: 0;
+        }
+
+        .radio-button {
+            padding: 0.5rem 0.625rem;
+        }
+
+        &:not(#{&}--arpegg) &-detach,
+        &:not(#{&}--arpegg) &-row:nth-child(4),
+        &:not(#{&}--arpegg) &-row:nth-child(5) {
+            visibility: hidden;
+
+            @include small-viewport {
+                display: none;
+            }
+        }
+
+        &:not(#{&}--arpegg) &-row:nth-child(2) > :nth-child(4) {
+            display: none;
+        }
+
+        &:not(#{&}--arpegg) &-row:nth-child(2) > :nth-child(2),
+        &:not(#{&}--arpegg) &-row:nth-child(2) > :nth-child(5) {
+            grid-column: span 9;
+        }
+        &:not(#{&}--arpegg) &-row:nth-child(2) > :nth-child(3) {
+            grid-column: span 10;
+        }
+
+        &-row {
+            display: grid;
+            grid-template-columns: repeat(20, 1fr);
+            grid-template-rows: min-content;
+            gap: 0.5rem;
+            align-items: center;
+            margin-bottom: 0.5rem;
+
+            @include small-viewport {
+                display: flex;
+                align-items: stretch;
+
+                & > * {
+                    width: 100%;
+                }
+                
+                &:nth-child(1),
+                &:nth-child(2) {
+                    :nth-child(1) {
+                        width: 5.5rem;
+                        padding-right: 0.25rem;
+                    }
+                }
+            }
+
+            & > * {
+                grid-column: span 4;
+            }
+
+            &:nth-child(1),
+            &:nth-child(2) {
+                grid-template-columns: repeat(44, 1fr);
+                
+                & > * {
+                    grid-column: span 8;
+                }
+
+                & > :nth-child(1) {
+                    grid-column: span 8;
+                }
+            }
+
+            &:nth-child(1) {
+                & > :nth-child(2),
+                & > :nth-child(3) {
+                    grid-column: span 14;
+                }
+            }
+
+            &:nth-child(2) {
+                & > :nth-child(3),
+                & > :nth-child(4) {
+                    grid-column: span 10;
+                }
+            }
+
+            &:nth-child(3),
+            &:nth-child(6) {
+                margin: 0.5rem 0 1rem;
+
+                @include small-viewport {
+                    margin: 1rem 0;
+                }
+
+                & > :nth-child(1) {
+                    grid-column: span 12;
+                }
+            }
+
+            &:nth-child(5) {
+                & > :nth-child(1),
+                & > :nth-child(2) {
+                    grid-column: span 4;
+                }
+                & > :nth-child(3),
+                & > :nth-child(4) {
+                    grid-column: span 6;
+                }
+            }
+        }
+
+        &-detach {
+            padding: 0 0.25rem;
+            border: none;
+            text-decoration: underline;
+            text-decoration-style: dotted;
+            text-underline-offset: 0.25rem;
+            background-color: unset;
+            
+            &:hover,
+            &:focus-visible {
+                color: $c-text-link;
+                background-color: unset;
+            }
+        }
+    }
+}

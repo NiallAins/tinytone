@@ -1,0 +1,59 @@
+html {
+    font-size: $w-rem;
+    overscroll-behavior: none;
+}
+
+body {
+    background-color: $c-bg;
+    padding: $w-page-pad;
+    margin: 0;
+
+    @include small-viewport {
+        max-width: $w-page-sm;
+        margin: 0 auto 8rem;
+    }
+}
+
+body,
+input,
+label,
+textarea,
+button {
+    font-family: $f-family;
+    color: $c-text;
+}
+
+h2 {
+    font-size: $f-size-subtitle;
+    font-weight: 500;
+    margin: 0 0 1.25rem;
+}
+
+p {
+    font-size: $f-size-lg;
+    line-height: 1.5;
+    max-width: $w-text-contain;
+    margin: 0;
+}
+
+.code {
+    display: block;
+    border-radius: $w-radius;
+    padding: 1rem 1rem 1rem 2rem;
+    margin: 1rem 0 2rem;
+    max-width: $w-text-contain;
+    white-space: pre-wrap;        
+    background-color: $c-bg;
+    font-size: $f-size-md;
+    line-height: 1.5rem;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+    
+    &--inline {
+        display: inline;
+        margin: 0;
+        padding: 0.25rem 0.375rem;
+    }
+}

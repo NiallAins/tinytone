@@ -1,0 +1,143 @@
+.page {
+    &__container {
+        max-width: $w-page-lg;
+        margin: 0 auto;
+    }
+
+    &__create,
+    &__export,
+    &__about {
+        display: none;
+    }
+
+    &__about-section,
+    &__export-section {
+        padding: 2rem;
+        margin-bottom: 2rem;
+        border-radius: $w-radius-lg;
+        background-color: $c-bg-secondary;
+    }
+
+    &__about-lede,
+    &__export-lede {
+        padding: 0.5rem 1rem 0 1rem;
+        background-color: $c-bg;
+    }
+
+    &--export &__export,
+    &--about &__about {
+        display: block;
+    }
+
+    &--create &__create {
+        display: grid;
+    }
+}
+
+.grid {
+    $w-grid-gap: 2rem;
+
+    position: relative;
+    grid-template-columns: 1fr;
+    gap: $w-grid-gap;
+    overflow: hidden;
+
+    & > div {
+        padding: $w-tile-pad;
+        border-radius: $w-radius-lg;
+        background: $c-bg-secondary;
+    }
+
+    .tex,
+    .envel,
+    .efx,
+    .empty {
+        display: none;
+
+        @include small-viewport {
+            position: absolute;
+            top: 100vh;
+            left: 0;
+            right: 0;
+            z-index: $z-panel-mobile;
+            display: flex;
+            box-shadow: 0 0 0 1rem $c-bg;
+            transition: top $t-fade;
+            padding-top: 4rem;
+        }
+    }
+
+    &--envel .envel,
+    &--tex .tex,
+    &--efx .efx,
+    &--empty .empty {
+        display: flex;
+
+        @include small-viewport {
+            flex-direction: column;
+        }
+    }
+
+    @include small-viewport {
+        &--mobile-panel-show#{&}--efx {
+            padding-bottom: 8rem;
+        }
+
+        &--mobile-panel-show#{&}--tex {
+            padding-bottom: 18rem;
+        }
+
+        &--mobile-panel-show#{&}--envel {
+            padding-bottom: 18rem;
+        }
+
+        &--mobile-panel-show &__close-panel,
+        &--mobile-panel-show#{&}--efx .efx,
+        &--mobile-panel-show#{&}--tex .tex ,
+        &--mobile-panel-show#{&}--envel .envel {
+            top: 0;
+        }
+    }
+
+    &__close-panel {
+        position: absolute;
+        top: 100vh;
+        left: 1rem;
+        right: 1rem;
+        z-index: $z-panel-close;
+        display: none;
+        transition: top $t-fade;
+
+        @include small-viewport {
+            display: block;
+        }
+
+        &-button {
+            display: block;
+            width: 100%;
+            height: 1rem;
+            border: none;
+            background-color: unset;
+
+            &::after {
+                content: '';
+                position: absolute;
+                top: 1rem;
+                display: inline-block;
+                width: 1rem;
+                height: 1rem;
+                border: solid $c-text;
+                border-width: 0 2px 2px 0;
+                rotate: 45deg;
+            }
+        }
+    }
+}
+
+.empty {
+    height: 18.75rem;
+
+    @include small-viewport {
+        height: 26rem;
+    }
+}

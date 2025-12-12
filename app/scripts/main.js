@@ -20,12 +20,14 @@ const Main = {
         );
         Keys.init();
         
+        this.closeMobilePanel();
         this.exposeFunctions();
     },
 
     exposeFunctions() {
         window.setPage = this.setPage.bind(this);
         window.toggleTheme = this.toggleTheme.bind(this);
+        window.closePanel = this.closeMobilePanel.bind(this);
 
         window.startNote = (freq, key) => {
             const TONES = Tone.currentTone.tone;
@@ -89,6 +91,10 @@ const Main = {
         Tone._renderChart();
 
         Node.NODES[eNodeType.Envel].forEach(n => n.child._updatePreview());
+    },
+
+    closeMobilePanel() {
+        this.EL_GRID.classList.remove('grid--mobile-panel-show')
     }
 };
 

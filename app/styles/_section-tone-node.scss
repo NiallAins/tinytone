@@ -1,0 +1,176 @@
+.tone__node {
+    position: relative;
+    padding: $w-tone-button-pad;
+
+    &--tone {
+        text-align: center;
+        line-height: 1.375rem;
+
+        @include small-viewport {
+            line-height: 2rem;
+        }
+    }
+
+    &--arpegg {
+        display: none;
+    }
+    
+    &-shortcut {
+        position: absolute;
+        width: 1rem;
+        left: calc(50% - 0.5rem);
+        bottom: 0.125rem;
+        display: block;
+        font-size: $f-size-xs;
+        font-style: italic;
+        color: $c-text-l;
+
+        @include small-viewport {
+            display: none;
+        }
+    }
+
+    &:has(button:hover, button:focus-visible) {
+        background-color: $c-bg;
+    }
+
+    &-delete {
+        $w-button-delete: 1.5rem;
+        position: absolute;
+        top: -1px;
+        right: -1px;
+        z-index: $z-tone-over-canvas;
+        padding: $w-button-delete * 0.5;
+        border-radius: $w-radius $w-radius $w-radius 50%;
+        border: 1px solid $c-border;
+        pointer-events: none;
+        opacity: 0;
+
+        &::before,
+        &::after {
+            content: '';
+            position: absolute;
+            top: calc($w-tone-button-pad - 2px);
+            left: 50%;
+            width: 1px;
+            height: $w-button-delete * 0.5;
+            background-color: $c-border;
+        }
+
+        &::after {
+            rotate: 45deg;
+        }
+
+        &::before {
+            rotate: -45deg;
+        }
+
+        &:hover,
+        &:focus-visible {
+            &:after,
+            &:before {
+                background-color: $c-text-warning;
+            }
+        }
+    }
+
+    &-delete:focus-visible,
+    &:hover:not(:has(#{&}-output:hover, #{&}-input:hover)) &-delete,
+    &:focus-visible &-delete {
+        animation: button-appear;
+        animation-duration: $t-appear;
+        animation-delay: $t-appear-delay;
+        animation-fill-mode: forwards;
+    }
+
+    &-delete:focus-visible {
+        animation-delay: 0s;
+    }
+
+    &-outputs,
+    &-inputs {
+        position: absolute;
+        display: flex;
+        justify-content: space-around;
+        pointer-events: none;
+    }
+
+    &-outputs {
+        inset: #{ -1 * $w-node-connect-top } 0 auto 0;
+    }
+
+    &-inputs {
+        inset: auto 0 #{ -1 * $w-node-connect-top } 0;
+    }
+
+    &-output,
+    &-input {
+        position: relative;
+        display: inline-block;
+        width: $w-node-connect;
+        height: $w-node-connect;
+        padding: 0;
+        border: 1px solid $c-border;
+        border-radius: 100%;
+        pointer-events: all;
+
+        &:before,
+        &:after {
+            content: '';
+            position: absolute;
+            border-radius: 100%;
+        }
+
+        &:before {
+            inset: 0;
+            z-index: $z-tone-over-canvas;
+        }
+
+        &:after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border: solid $c-border;
+            z-index: $z-tone-over-canvas;
+        }
+
+        &:hover,
+        &:focus {
+            background: none;
+            outline: 2px solid $c-primary;
+            outline-offset: 2px;
+        }
+    }
+
+    &-output {
+        &:before {
+            background: linear-gradient(transparent, $c-bg-secondary 87.5%);
+        }
+
+        &:after {
+            border-width: 0 1px 1px 0;
+        }
+    }
+
+    &-input {
+        &--last-visible {
+            visibility: hidden;
+
+            @include parent-with(--tex, 1) {
+                visibility: visible;
+            }
+
+            @include parent-with(--show-inputs) {
+                visibility: visible;
+            }
+        }
+
+        &:before {
+            background: linear-gradient(0, transparent, $c-bg-secondary 87.5%);
+        }
+
+        &:after {
+            border-width: 1px 0 0 1px;
+        }
+    }
+}

@@ -71,6 +71,11 @@ class Node {
                 Tone.currentTone.focusedNode = EL_INPUT;
             }
             clickCallback();
+        };
+        if (!IS_TONE) {
+            EL_INPUT.onclick = () => {
+                getEl('.grid').classList.add('grid--mobile-panel-show');
+            };
         }
         Node.EL_CONTAIN[type].appendChild(EL);
 

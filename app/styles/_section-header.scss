@@ -1,0 +1,40 @@
+.header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    align-items: center;
+    padding: 1rem;
+    margin-bottom: 1rem;
+
+    &__title {
+        font-size: $f-size-title;
+        font-weight: 500;
+        margin: 0 auto 0 0;
+
+        &-version {
+            padding-left: 0.5rem;
+            font-size: $f-size-sm;
+            color: $c-text-l;
+            font-style: italic;
+        }
+    }
+
+    &__theme {
+        padding: 0.5rem;
+        border: 1px solid $c-fg-l;
+        border-radius: 100%;
+        margin-left: 0.5rem;
+        vertical-align: middle  ;
+        background: linear-gradient(-45deg, $c-l-bg, $c-d-bg);
+        cursor: pointer;
+
+        &:hover {
+            background-color: $c-bg-d;
+        }   
+
+        &:focus-visible,
+        &:has(&__input:focus-visible) {
+            outline: $w-outline solid $c-text;
+        }
+    }
+}

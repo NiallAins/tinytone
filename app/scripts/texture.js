@@ -160,7 +160,13 @@ const Tex = {
         CAN.style.height = CAN_H + 'px';
         this.CTX = CAN.getContext('2d');
         
-        window.addEventListener('resize', this._updateCanvasSize.bind(this));
+        let windowW = window.innerWidth;
+        window.addEventListener('resize', () => {
+            if (windowW !== window.innerWidth) {
+                this._updateCanvasSize.bind(this);
+                windowW = window.innerWidth;
+            }
+        });
         this._updateCanvasSize(this.currentTex);
     },
 

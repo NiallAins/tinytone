@@ -1,0 +1,74 @@
+.efx {
+    $w-inp: 21.625rem;
+    $w-can: calc(100% - $w-inp);
+
+    gap: 2rem;
+
+    &__inputs {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem; 
+        height: min-content;
+        width: $w-inp;
+
+        @include small-viewport {
+            width: 100%;
+        }
+    }
+
+    &__canvas {
+        width: $w-can;
+        display: grid;
+        grid-template-columns: 2.875rem calc(100% - 2rem);
+
+        @include small-viewport {
+            width: 100%;
+        }
+
+        &:not(:has(#{ & }-label--show)) {
+            grid-template-columns: 0 100%;
+        }
+
+        &-label {
+            display: none;
+            width: 100%;
+            padding: 0.25rem 0 2rem;
+            writing-mode: sideways-lr;
+
+            &--show {
+                display: flex;
+                flex-direction: column;
+            }
+        }
+
+        & &-input {
+            height: 100%;
+            writing-mode: sideways-lr;
+            width: 0.125rem;
+            margin: 0 0.75rem;
+            background-color: $c-axis;
+
+            &,
+            &::-webkit-slider-thumb {
+                cursor: ns-resize;
+            }
+        }
+
+        &-reverb,
+        &-vibrato {
+            display: none;
+            grid-column: span 2;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            padding-top: 1rem;
+
+            &--show {
+                display: grid;
+            }
+        }
+
+        &-canvas {
+            grid-column: 2;
+        }
+    }
+}

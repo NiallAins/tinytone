@@ -1,0 +1,167 @@
+.tex {
+    gap: 1rem;
+
+    @include small-viewport {
+        .grid & {
+            padding-left: 0;
+        }
+    }
+
+    &__inputs {
+        width: 22rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        @include small-viewport {
+            width: calc(100% - 1rem);
+            padding-left: 1rem;
+        }
+
+        &-type,
+        &-preset {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 0.5rem;
+
+            & > * {
+                grid-column: span 2;
+            }
+        }
+
+        &-type {
+            & > :nth-child(1),
+            & > :nth-child(2),
+            & > :nth-child(3),
+            & > :nth-child(4) {
+                grid-column: span 3;
+            }
+        }
+
+        &-preset {
+            margin-top: 1rem;
+        }
+
+        &-preset,
+        &-overtone {
+            display: none;
+
+            &--open {
+                display: grid;
+            }
+        }
+
+        &-overtone {
+            grid-template-columns: 50% 50%;
+
+            input {
+                $c-0: nth($c-d-highlight, 2);
+                $c-1: nth($c-d-highlight, 10);
+                $row-max: 8;
+                $trans-max: 0.75;
+                margin-bottom: 0.375rem;
+                height: 0.25rem;
+
+                @include small-viewport {
+                    margin-bottom: 0.625rem;
+                }
+
+                &:nth-child(2n + 1) {
+                    background-color: transparentize($c-0, $trans-max);
+                }
+                &:nth-child(2n) {
+                    background-color: transparentize($c-1, $trans-max);
+                }
+                @for $i from 0 to $row-max {
+                    $a: $trans-max * ($i / $row-max);
+                    &:nth-child(#{ (2 * $i) + 1 }) {
+                        background-color: transparentize($c-0, $a);
+                    }
+                    &:nth-child(#{ 2 * $i }) {
+                        background-color: transparentize($c-1, $a);
+                    }
+                }
+            }
+        }
+    }
+
+    &__canvas {
+        position: relative;
+        display: grid;
+        width: calc(100% - 20.125rem);
+        grid-template-columns: 1rem 1rem auto;
+        margin: -0.75rem 0 -1rem;
+
+        @include small-viewport {
+            width: 100%;
+        }
+
+        &-label {
+            width: 100%;
+            font-size: $f-size-md;
+        }
+
+        &-label#{&}--degain {
+            text-align: right;
+            padding-top: 1rem;
+        }
+
+        & &-input {
+            background: none;
+        }
+
+        & &--degain {
+            position: relative;
+            left: 1.125rem;
+            height: calc(100% - 3rem);
+            writing-mode: sideways-lr;
+        }
+
+        &--degain#{&}-input {
+            position: relative;
+            width: 0.125rem;
+            margin: 0 0.75rem;
+
+            &,
+            &::-webkit-slider-thumb {
+                cursor: ns-resize;
+            }
+        }
+
+        &--detune,
+        &--octave {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+        }
+
+        &--detune {
+            inset: auto 28% 0 2rem;
+
+            @include small-viewport {
+                inset: auto 24% 0 1.625rem;
+            }
+        }
+
+        &--octave {
+            inset: auto 0 0 72.5%;
+
+            @include small-viewport {
+                inset: auto -0.5rem 0 69.5%;
+            }
+        }
+
+        &--detune &-label {
+            padding: 0.375rem 0 0.875rem 1rem;
+        }
+
+        &--octave &-label {
+            text-align: center;
+            padding: 0.375rem 0 0.875rem 0;
+        }
+
+        &-canvas {
+            width: 100%;
+        }
+    }
+}

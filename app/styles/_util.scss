@@ -1,0 +1,43 @@
+@use "sass:math";
+@use "sass:string" as str;
+
+@mixin small-viewport() {
+    @media (max-width: $w-page-md) {
+        @content;
+    }
+}
+
+@mixin parent-with($mod, $level: 0) {
+  $sel: &;
+  
+  @for $i from 1 through length($sel) {
+    $sel-part: nth($sel, $i);
+    $sel-last: nth($sel-part, -1);
+    $bem-parts: str.split($sel-last, '__');
+    $mod-parts: str.split(nth($bem-parts, 2), '--');
+    $elm-parts: str.split(nth($mod-parts, 1), '-');
+    $elm-count: length($elm-parts);
+
+    $level: if($level < 0, $elm-count + $level, $level);
+    $level: math.clamp(0, $level, $elm-count);
+
+    $str: '';
+    @for $i from 0 to $level {
+      $str: $str +
+        if($i == 0, '__', '-') +
+        nth($elm-parts, $i + 1);
+    }
+    
+    $sel: set-nth(
+      $sel, $i,
+      set-nth(
+        $sel-part, -1,
+        nth($bem-parts, 1) + $str + $mod + ' ' + $sel-last
+      )
+    ); 
+  }
+
+  @at-root #{ $sel } {
+    @content;
+  }
+}

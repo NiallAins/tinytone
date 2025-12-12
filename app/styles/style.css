@@ -311,6 +311,127 @@ input[type=range]:focus-visible::-webkit-slider-thumb {
   width: 100%;
 }
 
+.page__container {
+  max-width: 62rem;
+  margin: 0 auto;
+}
+.page__create, .page__export, .page__about {
+  display: none;
+}
+.page__about-section, .page__export-section {
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border-radius: 1rem;
+  background-color: var(--c-bg-secondary);
+}
+.page__about-lede, .page__export-lede {
+  padding: 0.5rem 1rem 0 1rem;
+  background-color: var(--c-bg);
+}
+.page--export .page__export, .page--about .page__about {
+  display: block;
+}
+.page--create .page__create {
+  display: grid;
+}
+
+.grid {
+  position: relative;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  overflow: hidden;
+}
+.grid > div {
+  padding: 1rem;
+  border-radius: 1rem;
+  background: var(--c-bg-secondary);
+}
+.grid .tex,
+.grid .envel,
+.grid .efx,
+.grid .empty {
+  display: none;
+}
+@media (max-width: 56rem) {
+  .grid .tex,
+  .grid .envel,
+  .grid .efx,
+  .grid .empty {
+    position: absolute;
+    top: 100vh;
+    left: 0;
+    right: 0;
+    z-index: 45;
+    display: flex;
+    box-shadow: 0 0 0 1rem var(--c-bg);
+    transition: top 500ms;
+    padding-top: 4rem;
+  }
+}
+.grid--envel .envel, .grid--tex .tex, .grid--efx .efx, .grid--empty .empty {
+  display: flex;
+}
+@media (max-width: 56rem) {
+  .grid--envel .envel, .grid--tex .tex, .grid--efx .efx, .grid--empty .empty {
+    flex-direction: column;
+  }
+}
+@media (max-width: 56rem) {
+  .grid--mobile-panel-show.grid--efx {
+    padding-bottom: 8rem;
+  }
+  .grid--mobile-panel-show.grid--tex {
+    padding-bottom: 18rem;
+  }
+  .grid--mobile-panel-show.grid--envel {
+    padding-bottom: 18rem;
+  }
+  .grid--mobile-panel-show .grid__close-panel, .grid--mobile-panel-show.grid--efx .efx, .grid--mobile-panel-show.grid--tex .tex, .grid--mobile-panel-show.grid--envel .envel {
+    top: 0;
+  }
+}
+.grid__close-panel {
+  position: absolute;
+  top: 100vh;
+  left: 1rem;
+  right: 1rem;
+  z-index: 48;
+  display: none;
+  transition: top 500ms;
+}
+@media (max-width: 56rem) {
+  .grid__close-panel {
+    display: block;
+  }
+}
+.grid__close-panel-button {
+  display: block;
+  width: 100%;
+  height: 1rem;
+  border: none;
+  background-color: unset;
+}
+.grid__close-panel-button::after {
+  content: "";
+  position: absolute;
+  top: 1rem;
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: solid var(--c-fg);
+  border-width: 0 2px 2px 0;
+  rotate: 45deg;
+}
+
+.empty {
+  height: 18.75rem;
+}
+@media (max-width: 56rem) {
+  .empty {
+    height: 26rem;
+  }
+}
+
 .header {
   display: flex;
   flex-wrap: wrap;
@@ -344,63 +465,6 @@ input[type=range]:focus-visible::-webkit-slider-thumb {
 }
 .header__theme:focus-visible, .header__theme:has(.header__theme__input:focus-visible) {
   outline: 0.125rem solid var(--c-fg);
-}
-
-.page__container {
-  max-width: 62rem;
-  margin: 0 auto;
-}
-.page__create, .page__export, .page__about {
-  display: none;
-}
-.page__about-section, .page__export-section {
-  padding: 2rem;
-  margin-bottom: 2rem;
-  border-radius: 1rem;
-  background-color: var(--c-bg-secondary);
-}
-.page__about-lede, .page__export-lede {
-  padding: 0.5rem 1rem 0 1rem;
-  background-color: var(--c-bg);
-}
-.page--export .page__export, .page--about .page__about {
-  display: block;
-}
-.page--create .page__create {
-  display: grid;
-}
-
-.grid {
-  grid-template-columns: 1fr;
-  gap: 2rem;
-}
-.grid > div {
-  padding: 1rem;
-  border-radius: 1rem;
-  background: var(--c-bg-secondary);
-}
-.grid .tex,
-.grid .envel,
-.grid .efx,
-.grid .empty {
-  display: none;
-}
-.grid--envel .envel, .grid--tex .tex, .grid--efx .efx, .grid--empty .empty {
-  display: flex;
-}
-@media (max-width: 56rem) {
-  .grid--envel .envel, .grid--tex .tex, .grid--efx .efx, .grid--empty .empty {
-    flex-direction: column;
-  }
-}
-
-.empty {
-  height: 18.75rem;
-}
-@media (max-width: 56rem) {
-  .empty {
-    height: 26rem;
-  }
 }
 
 .efx {
@@ -494,11 +558,6 @@ input[type=range]:focus-visible::-webkit-slider-thumb {
 .envel__inputs .radio-button {
   padding: 0.5rem 0.625rem;
 }
-@media (max-width: 56rem) {
-  .envel__inputs .radio-button {
-    height: calc(100% - 1.125rem);
-  }
-}
 .envel__inputs:not(.envel__inputs--arpegg) .envel__inputs-detach, .envel__inputs:not(.envel__inputs--arpegg) .envel__inputs-row:nth-child(4), .envel__inputs:not(.envel__inputs--arpegg) .envel__inputs-row:nth-child(5) {
   visibility: hidden;
 }
@@ -527,6 +586,7 @@ input[type=range]:focus-visible::-webkit-slider-thumb {
 @media (max-width: 56rem) {
   .envel__inputs-row {
     display: flex;
+    align-items: stretch;
   }
   .envel__inputs-row > * {
     width: 100%;
@@ -629,6 +689,12 @@ input[type=range]:focus-visible::-webkit-slider-thumb {
 }
 .tex__inputs-overtone input {
   margin-bottom: 0.375rem;
+  height: 0.25rem;
+}
+@media (max-width: 56rem) {
+  .tex__inputs-overtone input {
+    margin-bottom: 0.625rem;
+  }
 }
 .tex__inputs-overtone input:nth-child(2n+1) {
   background-color: hsla(202, 100%, 40%, 0.25);
@@ -818,6 +884,30 @@ input[type=range]:focus-visible::-webkit-slider-thumb {
 .tone__grid-head--efx, .tone__grid-body--efx {
   margin-top: 0.875rem;
 }
+.tone__add {
+  position: relative;
+  z-index: 11;
+  padding: 0.5rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 100%;
+  order: 1;
+  border: none;
+  background-color: var(--c-bg);
+}
+.tone__add::before, .tone__add::after {
+  content: "";
+  position: absolute;
+  top: 0.5rem;
+  left: calc(50% - 1px);
+  width: 0.125rem;
+  height: 1.25rem;
+  background-color: var(--c-fg);
+}
+.tone__add::after {
+  rotate: 90deg;
+}
+
 .tone__node {
   position: relative;
   padding: 0.5rem;
@@ -955,29 +1045,6 @@ input[type=range]:focus-visible::-webkit-slider-thumb {
 }
 .tone__node-input:after {
   border-width: 1px 0 0 1px;
-}
-.tone__add {
-  position: relative;
-  z-index: 11;
-  padding: 0.5rem;
-  width: 2.25rem;
-  height: 2.25rem;
-  border-radius: 100%;
-  order: 1;
-  border: none;
-  background-color: var(--c-bg);
-}
-.tone__add::before, .tone__add::after {
-  content: "";
-  position: absolute;
-  top: 0.5rem;
-  left: calc(50% - 1px);
-  width: 0.125rem;
-  height: 1.25rem;
-  background-color: var(--c-fg);
-}
-.tone__add::after {
-  rotate: 90deg;
 }
 
 .keys {
