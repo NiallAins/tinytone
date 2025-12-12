@@ -1,4 +1,10 @@
-class Node {
+import { WIDTH, COLOR } from "../common/styles.js";
+import { eNodeType } from "../common/enums.js";
+import { getEl, createRadioButton } from "../common/ui.js";
+import { Tone } from "./tone.js";
+import { setTile } from "./page.js";
+
+export class Node {
     static MAX_OUT = 5;
     static NODES = {
         [eNodeType.Tone]:  [],
@@ -252,7 +258,7 @@ class Node {
         // Focus nearest node, if deleted node is in focus
         if (this.EL_INPUT.checked) {
             if (ACTIVE_NODES.length === 1) {
-                Main.setTile(-1);
+                setTile(-1);
             } else {
                 ACTIVE_NODES[ALL_INDEX + 1 === ACTIVE_NODES.length ? ALL_INDEX - 1 : ALL_INDEX + 1].EL.click();
             }

@@ -1,4 +1,4 @@
-const PRESETS = [
+export const PRESETS = [
     {
         label: "Tuba",
         octave: -2,

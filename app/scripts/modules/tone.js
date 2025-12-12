@@ -1,3 +1,12 @@
+import { CAN_QUALITY } from "../common/consts.js";
+import { eNodeType, eEnvelKeyHold } from "../common/enums.js";
+import { WIDTH, COLOR } from "../common/styles.js";
+import { getEl } from "../common/ui.js";
+import { clearCanvas, bezierBetween } from "../common/canvas.js";
+import { Node } from "./node.js";
+import { Envel } from "./envelope.js";
+import { setTile } from "./page.js";
+
 class _Tone {
     static BLANK_ENVEL;
     static BLANK_EFX;
@@ -103,7 +112,7 @@ class _Tone {
     }
 }
 
-const Tone = {
+export const Tone = {
     EL_CONTAIN: getEl('#EL_TONE_CONTAIN'),
     CLASS_SHOW_INPUTS: 'tone--show-inputs',
     CTX: null,
@@ -158,7 +167,7 @@ const Tone = {
                 this.currentTone.focusedNode.click();
             }
         } else {
-            Main.setTile(-1);
+            setTile(-1);
         }
         Envel.updateMaxDuration();
         this._renderChart();

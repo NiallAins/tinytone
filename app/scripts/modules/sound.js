@@ -1,3 +1,6 @@
+import { MAX_DEGAIN, MIN_FADE, MIN_GAIN, TWELVE_RT_2, OSC_TYPES, MS_TO_S } from "../common/consts.js";
+import { eReverbType, eTexType, eEffectType, eVibratoType, eEnvelStage, eEnvelKeyHold, eEnvelKeyUp } from "../common/enums.js";
+
 class _Note {
     static NOTES = [];
     static GAIN_SCALE = 0.5;
@@ -42,7 +45,7 @@ class _Note {
 
             let oscNode;
             let oscNodeFilter;
-            if (tone.tex.type === eWaveType.Noise) {
+            if (tone.tex.type === eTexType.Noise) {
                 const
                     BUFF_SIZE = 2 * ctx.sampleRate,
                     BUFF = ctx.createBuffer(1, BUFF_SIZE, ctx.sampleRate),
@@ -311,7 +314,7 @@ class _Note {
     }
 }
 
-const Sound = {
+export const Sound = {
     CTX: new AudioContext(),
     IR: [],
 

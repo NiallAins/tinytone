@@ -1,4 +1,6 @@
-const Keys = {
+import { getEl } from "../common/ui.js";
+
+export const Keys = {
     ACTIVE_NOTE_IDS: {},
     BASE_FREQ: 173.83,
     SHORTCUTS: [

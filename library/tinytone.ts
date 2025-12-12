@@ -27,7 +27,7 @@ type eReverbType = 0 | 1 | 2;
 type eVibratoType = 0 | 1 | 2;
 
 // Sine, Square, Custom, Sawtooth, Triangle, Preset, Noise
-type eWaveType = 0 | 1 | 2 | 3 | 4 | 5 | 6;
+type eTexType = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
 // None, Sustain, SustainAll, Loop
 type eEnvelKeyHold = 0 | 1 | 2 | 3;
@@ -69,7 +69,7 @@ type tTonesEncoded = [
     envelReleaseTime: number,
     envelOffsetTime: number,
     envelLoopTime: number,
-    texType: eWaveType,
+    texType: eTexType,
     texDetune: number,
     texDegain: number,
     texOvertones: [] | [number[], number[]],

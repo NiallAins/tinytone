@@ -1,15 +1,25 @@
+import { OVERTONE_COUNT, CAN_QUALITY, OSC_TYPES } from "../common/consts.js";
+import { eTexType, eNodeType } from "../common/enums.js";
+import { WIDTH, COLOR, REM } from "../common/styles.js";
+import { getEl } from "../common/ui.js";
+import { createRadioButton, createRangeInput } from "../common/ui.js";
+import { clearCanvas } from "../common/canvas.js";
+import { PRESETS } from "../data/presets.js";
+import { Node } from "./node.js";
+import { setTile } from "./page.js";
+
 class _Tex {
     static REL_GAIN = {
-        [eWaveType.Square]: 0.35,
-        [eWaveType.Sawtooth]: 0.35,
-        [eWaveType.Triangle]: 1.15,
-        [eWaveType.Noise]: 0.45
+        [eTexType.Square]: 0.35,
+        [eTexType.Sawtooth]: 0.35,
+        [eTexType.Triangle]: 1.15,
+        [eTexType.Noise]: 0.45
     };
 
     detune = 0;
     degain = 1;
     octave = 0;
-    type = eWaveType.Sine;
+    type = eTexType.Sine;
     presetWave = 0;
     customWave = [
         [0, 5, ...(new Array(OVERTONE_COUNT - 1).fill(0))],
@@ -47,11 +57,11 @@ class _Tex {
     get wave() {
         return {
             octave: this.octave,
-            overtones: this.type === eWaveType.Custom
+            overtones: this.type === eTexType.Custom
                 ? this.customWave
-                : this.type === eWaveType.Preset
+                : this.type === eTexType.Preset
                 ? PRESETS[this.presetWave].overtones
-                : eWaveType[this.type]
+                : eTexType[this.type]
         };
     }
 
@@ -103,7 +113,7 @@ class _Tex {
     }
 }
 
-const Tex = {
+export const Tex = {
     CTX: null,
     A_CTX: null,
     CAN_W: 0,
@@ -134,12 +144,12 @@ const Tex = {
             this.INP_OCTAVE.value = this.currentTex.octave;
             this._queueRenderChart();
         }
-        Main.setTile(eNodeType.Tex);
+        setTile(eNodeType.Tex);
     },
 
     _setTexType(type, preset = -1) {
         this.currentTex.wave = type;
-        if (type === eWaveType.Preset && preset === -1) {
+        if (type === eTexType.Preset && preset === -1) {
             preset = 0;
         }
         if (preset > -1) {
@@ -217,16 +227,16 @@ const Tex = {
             this._queueRenderChart();
         };
         
-        new Array(eWaveType.length)
+        new Array(eTexType.length)
             .fill('')
             .forEach((_, i) => {
-                const [INP, EL] = createRadioButton(i, 'texType', eWaveType[i]);
+                const [INP, EL] = createRadioButton(i, 'texType', eTexType[i]);
                 INP.checked = i === 0;
                 INP.oninput = () => {
                     EL_CONTAIN_OVER
-                        .classList[i === eWaveType.Custom ? 'add' : 'remove'](OVER_CLASS + '--open');
+                        .classList[i === eTexType.Custom ? 'add' : 'remove'](OVER_CLASS + '--open');
                     EL_CONTAIN_PRESET
-                        .classList[i === eWaveType.Preset ? 'add' : 'remove'](PRESET_CLASS + '--open');
+                        .classList[i === eTexType.Preset ? 'add' : 'remove'](PRESET_CLASS + '--open');
                     this._setTexType(i);
                 }
                 this.INPS_TYPE.push(INP);
@@ -237,7 +247,7 @@ const Tex = {
             .map((p, pi)=> createRadioButton(pi, 'texPreset', p.label))
             .forEach((inp, i) => {
                 inp[0].checked = i === 0;
-                inp[0].oninput = () => this._setTexType(eWaveType.Preset, i);
+                inp[0].oninput = () => this._setTexType(eTexType.Preset, i);
                 EL_CONTAIN_PRESET.appendChild(inp[1]);
             });
 
@@ -276,7 +286,7 @@ const Tex = {
 
     _renderChart(tex = this.currentTex) {
         const
-            W = this.CAN_W - WIDTH.xAxisPad;
+            W = this.CAN_W - WIDTH.xAxisPad,
             FREQ =
                 W * 0.5 *
                 (0.5 + ((tex.detune + 7) / 14)) *
@@ -292,7 +302,7 @@ const Tex = {
 
         let oscNode;
         
-        if (tex.type === eWaveType.Noise) {
+        if (tex.type === eTexType.Noise) {
             const
                 BUFF_SIZE = 2 * this.A_CTX.sampleRate,
                 BUFF = this.A_CTX.createBuffer(1, BUFF_SIZE, this.A_CTX.sampleRate),

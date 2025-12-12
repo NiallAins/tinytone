@@ -1,3 +1,13 @@
+import { MIN_GAIN, MID_GAIN, MAX_GAIN, MIN_FADE, MIN_FADE_STEP, DEFAULT_MAX_DURATION, ARPEGG_TYPE_NOTES } from "../common/consts.js";
+import { WIDTH, COLOR, REM, FONT_CHART } from "../common/styles.js";
+import { eArpeggDirection, eArpeggType, eEnvelKeyHold, eEnvelKeyUp, eEnvelStage, eNodeType } from "../common/enums.js";
+import { getEl } from "../common/ui.js";
+import { clearCanvas } from "../common/canvas.js";
+import { Node } from "./node.js";
+import { setTile } from "./page.js";
+import { Tone } from "./tone.js";
+import { Tex } from "./texture.js";
+
 class _Envel {
     static _DEFAULT_TIMES = [
         0,
@@ -255,7 +265,7 @@ class _Envel {
     }
 }
 
-const Envel = {
+export const Envel = {
     INPUTS: null,
     CONTROLS: {
         keyUp: [],
@@ -296,7 +306,7 @@ const Envel = {
                 envel.keyHold !== eEnvelKeyHold.Loop || envel.isArpegg
             );
         }
-        Main.setTile(eNodeType.Envel);
+        setTile(eNodeType.Envel);
     },
 
     updateMaxDuration() {

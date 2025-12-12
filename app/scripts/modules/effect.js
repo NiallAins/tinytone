@@ -1,3 +1,11 @@
+import { eEffectType, eReverbType, eVibratoType, eNodeType } from "../common/enums.js";
+import { WIDTH, COLOR, REM, FONT_CHART } from "../common/styles.js";
+import { getEl } from "../common/ui.js";
+import { createRangeInput, createRadioButton } from "../common/ui.js";
+import { clearCanvas, yOnBezier } from "../common/canvas.js";
+import { Node } from "./node.js";
+import { setTile } from "./page.js";
+
 class _Efx {
     static DEFAULT_LEVEL = 0.5;
     static DISTORT_CURVE; 
@@ -113,7 +121,7 @@ class _Efx {
     }
 }
 
-const Efx = {
+export const Efx = {
     ATTACK_X: 0.25,
     SUSTAIN_X: 0.75,
     INPUTS: null,
@@ -147,7 +155,7 @@ const Efx = {
                 efx.sustainLevel
             ];
         }
-        Main.setTile(eNodeType.Efx);
+        setTile(eNodeType.Efx);
     },
 
     _setEfxType(type) {
@@ -287,7 +295,7 @@ const Efx = {
     },
 
     _renderChart(c, pts, toPx) {
-        if (!this.currentEfx || Main.currentTile !== eNodeType.Efx) {
+        if (!this.currentEfx || Page.currentTile !== eNodeType.Efx) {
             return;
         }
 
