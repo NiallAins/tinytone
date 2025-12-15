@@ -1,8 +1,14 @@
 import { WIDTH, COLOR } from "../common/styles.js";
 import { eNodeType } from "../common/enums.js";
 import { getEl, createRadioButton } from "../common/ui.js";
-import { Tone } from "./tone.js";
-import { setTile } from "./page.js";
+import { selectOutput, reRender } from "../modules/tone.js";
+import { setTile } from "../modules/page.js";
+import { currentTone } from "../modules/tone.js";
+
+
+//
+// Public class
+//
 
 export class Node {
     static MAX_OUT = 5;
@@ -42,7 +48,7 @@ export class Node {
             RADIO_I = IS_TONE ? Node.latestToneIndex : Node.latestNodeIndex;
         this.type = type;
         this.child = child;
-        this.parentToneIndex = Tone.currentTone?.index || 0;
+        this.parentToneIndex = currentTone?.index || 0;
 
         Node.NODES[type].push(this);
         if (IS_TONE) {
@@ -73,8 +79,8 @@ export class Node {
         }
         
         EL_INPUT.onchange = () => {
-            if (!IS_TONE && Tone.currentTone) {
-                Tone.currentTone.focusedNode = EL_INPUT;
+            if (!IS_TONE && currentTone) {
+                currentTone.focusedNode = EL_INPUT;
             }
             clickCallback();
         };
@@ -145,7 +151,7 @@ export class Node {
                         `${ CLASS }-output`,
                         `${ CLASS }-output--${ i }`
                     );
-                    BUTTON.onclick = () => Tone.selectOutput(this, i);
+                    BUTTON.onclick = () => selectOutput(this, i);
                     EL_OUTPUT_CONTAIN.appendChild(BUTTON);
                     return BUTTON;
                 });
@@ -163,7 +169,7 @@ export class Node {
                         `${ CLASS }-input`,
                         `${ CLASS }-input--${ i }`
                     );
-                    BUTTON.onclick = () => Tone._connectOutput(this, i);
+                    BUTTON.onclick = () => connectOutput(this, i);
                     EL_INPUT_CONTAIN.appendChild(BUTTON);
                     return BUTTON;
                 });
@@ -240,7 +246,7 @@ export class Node {
                 .flat()
                 .filter(n =>
                     n.type !== eNodeType.Tone &&
-                    n.parentToneIndex === Tone.currentTone.index &&
+                    n.parentToneIndex === currentTone.index &&
                     !n.isArpeggChild
                 ),
             INDEX = Node.NODES[this.type].indexOf(this),
@@ -264,6 +270,6 @@ export class Node {
             }
         }
 
-        Tone._renderChart();
+        reRender();
     }
 }

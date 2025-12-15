@@ -2,25 +2,31 @@ import { PAGE_CLASS } from '../common/consts.js';
 import { setColors } from '../common/styles.js';
 import { getEl } from '../common/ui.js';
 import { eNodeType } from '../common/enums.js';
-import { Envel } from './envelope.js';
-import { Tex } from './texture.js';
-import { Efx } from './effect.js';
-import { Sound } from './sound.js';
-import { Tone } from './tone.js';
-import { Node } from './node.js';
-import { Keys } from './keys.js';
-import { Export } from './export.js';
+import { Node } from '../classes/Node.js';
+import { reRender as reRenderTex } from './texture.js';
+import { reRender as reRenderTone } from './tone.js';
+import { reRender as reRenderEfx } from './effect.js';
+import { startNote as startNoteSound, finishNote as finishNoteSound } from './sound.js';
+import { startNote as startNoteKey, finishNote as finishNoteKey } from './keys.js';
+import { downloadLibraryDTs, downloadLibraryJs, downloadLibraryMJs } from './export.js';
+import { currentTone } from './tone.js';
 
 
 //
-// Private variables
+// Private reaonly variables
 //
 
 const
     EL_PAGE = getEl('#EL_PAGE'),
     EL_GRID = getEl('#EL_GRID');
 
-let isDarkTheme = true;
+
+//
+// Private variables
+//
+
+let
+    isDarkTheme = true;
 
 
 //
@@ -57,31 +63,31 @@ function exposeFunctions() {
     window.closePanel = closeMobilePanel.bind(this);
 
     window.startNote = (freq, key) => {
-        const TONES = Tone.currentTone.tone;
+        const TONES = currentTone.tone;
         if (TONES[0] !== null) {
-            const ID = Sound.startNote(
+            const ID = startNoteSound(
                 TONES,
                 freq
             );
-            Keys.startNote(ID, key);
+            startNoteKey(ID, key);
         }
     };
 
     window.finishNote = (key) => {
-        const ID = Keys.finishNote(key);
-        Sound.finishNote(ID);
+        const ID = finishNoteKey(key);
+        finishNoteSound(ID);
     };
 
-    window.downloadLibraryJs  = Export.downloadLibraryJs.bind(Export);
-    window.downloadLibraryMJs = Export.downloadLibraryMJs.bind(Export);
-    window.downloadLibraryDTs = Export.downloadLibraryDTs.bind(Export);
+    window.downloadLibraryJs  = downloadLibraryJs;
+    window.downloadLibraryMJs = downloadLibraryMJs;
+    window.downloadLibraryDTs = downloadLibraryDTs;
 }
 
 function setPage(index) {
     PAGE_CLASS.forEach(p => EL_PAGE.classList.remove(p));
     EL_PAGE.classList.add(PAGE_CLASS[index]);
     if (index === 2) {
-        Export.setEncodedTones();
+        setEncodedTones();
     }
 }
 
@@ -97,10 +103,9 @@ function toggleTheme() {
     }
     setColors();
 
-    Efx.INPUTS.render();
-    Envel.INPUTS.render();
-    Tex._renderChart();
-    Tone._renderChart();
+    reRenderEfx();
+    reRenderTex();
+    reRenderTone();
 
     Node.NODES[eNodeType.Envel].forEach(n => n.child._updatePreview());
 }

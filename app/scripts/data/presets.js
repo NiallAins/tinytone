@@ -1,4 +1,4 @@
-export const PRESETS = [
+export default [
     {
         label: "Tuba",
         octave: -2,
