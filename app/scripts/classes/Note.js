@@ -278,6 +278,9 @@ export class Note {
                 time = RELEASE.time - PRE_RELEASE.time;
                 tone.gainNodeEnvel.gain.cancelScheduledValues(this.CTX.currentTime);
                 this._setGain(tone.gainNodeEnvel);
+                if (tone.gainNodeEnvel.gain.value > PRE_RELEASE.gain) {
+                    this._setGain(tone.gainNodeEnvel, PRE_RELEASE.gain, MIN_FADE);
+                }
                 this._setGain(tone.gainNodeEnvel, RELEASE.gain, time);
             } else if (tone.keyHold === eEnvelKeyHold.Sustain) {
                  const

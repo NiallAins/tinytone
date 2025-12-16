@@ -15,12 +15,14 @@ export declare const Tone: {
 };
 
 export type tNote = number | string;
+
 export type tNoteArray = [
     note:     tNote,
     start?:   number,
     sustain?: number,
     tone?:    number
 ];
+
 export type tNoteObject = {
     note:     tNote,
     start?:   number,
