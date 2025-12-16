@@ -1,12 +1,13 @@
 import { MIN_GAIN, MID_GAIN, MAX_GAIN, MIN_FADE, ARPEGG_TYPE_NOTES } from "../common/consts.js";
 import { WIDTH, COLOR } from "../common/styles.js";
 import { eArpeggDirection, eArpeggType, eEnvelKeyHold, eEnvelKeyUp, eEnvelStage, eNodeType } from "../common/enums.js";
-import { Node } from "./Node.js";
-import { currentTone, reRender, updateCanvasWidth } from "../modules/tone.js";
 import { clearCanvas } from "../common/canvas.js";
-import { Tex } from "./Tex.js";
-import { updateMaxDuration } from "../modules/envelope.js";
+import { Node } from "./Node.js";
+import { reRender as reRenderTone, currentTone, updateCanvasWidth } from "../modules/tone.js";
+import { reRender as reRenderTex } from "../modules/texture.js";
+import { updateInputValue, updateMaxDuration, maxDuration } from "../modules/envelope.js";
 import { setEnvel } from "../modules/envelope.js";
+
 
 //
 // Protected class
@@ -159,7 +160,7 @@ export class Envel {
                 const TEX = inp.node.child.deepCopy();
                 TEX.detune += e.arpeggChildInterval;
                 currentTone.node.connectTo(TEX.node, 0, 0);
-                Tex._renderChart(TEX);
+                reRenderTex(TEX);
                 TEX.node.connectTo(e.node, inp.outSlot, inp.inSlot);
             });
             this.node.outputs.forEach(out => {
@@ -168,7 +169,7 @@ export class Envel {
             e.node.offset = this.node.inputs.length - 1;
             e.arpeggChildInterval = 0;
             e.node.EL.classList.remove(`tone__node--arpegg`);
-            reRender();
+            reRenderTone();
         });
         updateInputValue(eEnvelStage.Loop, this.stages[eEnvelStage.Loop].time);
         updateMaxDuration();
@@ -228,7 +229,7 @@ export class Envel {
             C.save();
                 C.beginPath();
                     const
-                        X = P + ((this.stages[this._isArpegg ? eEnvelStage.Offset : eEnvelStage.Loop].displayTime / Envel.maxDuration) * W),
+                        X = P + ((this.stages[this._isArpegg ? eEnvelStage.Offset : eEnvelStage.Loop].displayTime / maxDuration) * W),
                         LW = WIDTH.nodeStroke * 1.5;
                     C.fillStyle = COLOR.bgXd;
                     C.fillRect(X - (LW * 0.5), 0, LW, P + H);
@@ -241,7 +242,7 @@ export class Envel {
             this.stages
                 .filter((_, si) => si <= eEnvelStage.Release)
                 .forEach(s => C.lineTo(
-                    P + ((s.displayTime / Envel.maxDuration) * W),
+                    P + ((s.displayTime / maxDuration) * W),
                     P + ((MAX_GAIN - s.displayGain) * H)
                 ));
             C.save();

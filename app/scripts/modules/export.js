@@ -1,4 +1,4 @@
-import { TWELVE_RT_2, MAX_DEGAIN, TONES_PLACEHOLDER_STRING } from "../common/consts.js";
+import { TWELVE_RT_2, TONES_PLACEHOLDER_STRING } from "../common/consts.js";
 import { eTexType, eEnvelStage } from "../common/enums.js";
 import { getEl } from "../common/ui.js";
 import { getAllTones } from "./tone.js";
@@ -146,7 +146,7 @@ function getEncodedTones() {
                     t.envel.stages[eEnvelStage.Loop].time,
                     t.tex.type === eTexType.Preset ? eTexType.Custom : t.tex.type,
                     (2**t.tex.wave.octave) * Math.pow(TWELVE_RT_2, t.tex.detune),
-                    t.tex.degain / MAX_DEGAIN,
+                    t.tex.degain,
                     OVERTONES,
                     t.envel.keyUp,
                     t.envel.keyHold,

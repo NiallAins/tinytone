@@ -381,10 +381,10 @@ input[type=range]:focus-visible::-webkit-slider-thumb {
     padding-bottom: 8rem;
   }
   .grid--mobile-panel-show.grid--tex {
-    padding-bottom: 18rem;
+    padding-bottom: 17rem;
   }
   .grid--mobile-panel-show.grid--envel {
-    padding-bottom: 18rem;
+    padding-bottom: 17rem;
   }
   .grid--mobile-panel-show .grid__close-panel, .grid--mobile-panel-show.grid--efx .efx, .grid--mobile-panel-show.grid--tex .tex, .grid--mobile-panel-show.grid--envel .envel {
     top: 0;
@@ -407,7 +407,7 @@ input[type=range]:focus-visible::-webkit-slider-thumb {
 .grid__close-panel-button {
   display: block;
   width: 100%;
-  height: 1rem;
+  height: 1.75rem;
   border: none;
   background-color: unset;
 }
@@ -535,10 +535,10 @@ input[type=range]:focus-visible::-webkit-slider-thumb {
   overflow: hidden;
 }
 .envel__canvas {
-  flex: 0 0 calc(100% - 26rem + 4rem);
+  flex: 0 0 calc(100% - 22.75rem);
 }
 .envel__inputs--arpegg + .envel__canvas {
-  flex: 0 0 calc(100% - 31rem + 4rem);
+  flex: 0 0 calc(100% - 27.75rem);
 }
 .envel__inputs {
   display: flex;
@@ -776,13 +776,13 @@ input[type=range]:focus-visible::-webkit-slider-thumb {
 .tex__canvas .tex__canvas--degain {
   position: relative;
   left: 1.125rem;
-  height: calc(100% - 3rem);
+  height: calc(100% - 4.25rem);
   writing-mode: sideways-lr;
 }
 .tex__canvas--degain.tex__canvas-input {
   position: relative;
   width: 0.125rem;
-  margin: 0 0.75rem;
+  margin: 0.75rem 0.75rem 0;
 }
 .tex__canvas--degain.tex__canvas-input, .tex__canvas--degain.tex__canvas-input::-webkit-slider-thumb {
   cursor: ns-resize;
@@ -858,6 +858,9 @@ input[type=range]:focus-visible::-webkit-slider-thumb {
   display: grid;
   grid-template-columns: 3rem auto;
 }
+.tone__grid:not(:has(.tone__node--tone)) > div:not(:last-child) .tone__add {
+  display: none;
+}
 .tone__grid-head {
   position: sticky;
   left: 0;
@@ -914,10 +917,13 @@ input[type=range]:focus-visible::-webkit-slider-thumb {
 }
 .tone__node--tone {
   text-align: center;
+  line-height: 2rem;
+}
+.tone__node--prev, .tone__node--next {
   line-height: 1.375rem;
 }
 @media (max-width: 56rem) {
-  .tone__node--tone {
+  .tone__node--prev, .tone__node--next {
     line-height: 2rem;
   }
 }
@@ -930,7 +936,7 @@ input[type=range]:focus-visible::-webkit-slider-thumb {
   left: calc(50% - 0.5rem);
   bottom: 0.125rem;
   display: block;
-  font-size: 0.625rem;
+  font-size: 0.75rem;
   font-style: italic;
   color: var(--c-fg-l);
 }
@@ -938,6 +944,12 @@ input[type=range]:focus-visible::-webkit-slider-thumb {
   .tone__node-shortcut {
     display: none;
   }
+}
+.tone__node-shortcut > :first-child, .tone__node-shortcut > :last-child {
+  display: none;
+}
+.tone__node--prev .tone__node-shortcut > :first-child, .tone__node--next .tone__node-shortcut > :last-child {
+  display: inline-block;
 }
 .tone__node:has(button:hover, button:focus-visible) {
   background-color: var(--c-bg);

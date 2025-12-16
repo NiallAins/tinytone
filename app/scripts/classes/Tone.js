@@ -1,4 +1,4 @@
-import { eNodeType, eEnvelKeyHold } from "../common/enums.js";
+import { eNodeType, eEnvelKeyHold, eEnvelStage } from "../common/enums.js";
 import { Node } from "./Node.js";
 import { BLANK as BLANK_ENVEL } from "../modules/envelope.js";
 import { setTone } from "../modules/tone.js";

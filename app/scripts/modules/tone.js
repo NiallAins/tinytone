@@ -8,7 +8,7 @@ import { add as addEnvel, updateMaxDuration } from "./envelope.js";
 import { add as addTex } from "./texture.js";
 import { add as addEfx } from "./effect.js";
 import { setTile } from "./page.js";
-import { Tone } from "../classes/tone.js";
+import { Tone } from "../classes/Tone.js";
 
 //
 // Public variables
@@ -46,12 +46,11 @@ export function init() {
     document.body.addEventListener('mouseup',    unselectOutput.bind(this));
     document.body.addEventListener('mouseleave', unselectOutput.bind(this));
     document.addEventListener('keydown', e => {
-        if (e.shiftKey && e.code.slice(0, 5) === 'Digit') {
-            const TONE_NODE = Node.NODES[eNodeType.Tone][parseInt(e.code[5]) - 1];
-            if (TONE_NODE) {
-                TONE_NODE.EL.click();
-                e.stopPropagation();
-            };
+        let move = e.key === '[' ? -1 : e.key === ']' ? 1 : 0;
+        if (move) {
+            const TONES = Node.NODES[eNodeType.Tone];
+            move += TONES.indexOf(currentTone.node);
+            TONES[move === -1 ? TONES.length - 1 : move % TONES.length].EL.click();
         }
     });
 
@@ -102,6 +101,21 @@ export function setTone(tone) {
             .forEach(n => n.style.display = 'none');
     }
     currentTone = tone;
+    const
+        TONES = Node.NODES[eNodeType.Tone],
+        INDEX = TONES.indexOf(currentTone.node),
+        PREV = (INDEX === 0 ? TONES.length : INDEX) - 1,
+        NEXT = (INDEX + 1) % TONES.length;
+    TONES.forEach((t, i) => {
+        t.EL.classList.remove('tone__node--prev', 'tone__node--next');
+        if (TONES.length > 1) {
+            if (i === NEXT) {
+                t.EL.classList.add('tone__node--next')
+            } else if (i === PREV) {
+                t.EL.classList.add('tone__node--prev')
+            }
+        }
+    });
     const NODES = getEl(`.tone__node--of-tone-${ currentTone.index }:not(.tone__node--arpegg)`, 1);
     if (NODES.length) {
         NODES.forEach(n => n.style.display = 'inline-block');
@@ -152,23 +166,6 @@ export function connectOutput(node, inSlot) {
 //
 // Private functions
 //
-
-function unselectOutput() {
-    if (selectedOutput) {
-        setTimeout(() => {
-            selectedOutput = null;
-            EL_CONTAIN.classList.remove(CLASS_SHOW_INPUTS);
-        });
-    }
-}
-
-function hasRecursion(currentNode, targetNode) {
-    return currentNode === targetNode
-        ? true
-        : currentNode.type !== eNodeType.Efx
-        ? false
-        : currentNode.inputs.some(n => hasRecursion(n.node, targetNode));
-}
 
 function initInputs() {
     const ADD_CALLBACKS = [
@@ -262,6 +259,23 @@ function initCanvas() {
     CTX = CAN.getContext('2d');
 
     updateCanvasWidth();
+}
+
+function unselectOutput() {
+    if (selectedOutput) {
+        setTimeout(() => {
+            selectedOutput = null;
+            EL_CONTAIN.classList.remove(CLASS_SHOW_INPUTS);
+        });
+    }
+}
+
+function hasRecursion(currentNode, targetNode) {
+    return currentNode === targetNode
+        ? true
+        : currentNode.type !== eNodeType.Efx
+        ? false
+        : currentNode.inputs.some(n => hasRecursion(n.node, targetNode));
 }
 
 function renderChart() {

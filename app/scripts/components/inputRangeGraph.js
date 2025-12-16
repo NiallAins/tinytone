@@ -376,6 +376,7 @@ class _InputRangeGraph_input {
                                 obj._y = value;
                             }
                         }
+                        return true;
                     }
                 }))
             );
@@ -551,7 +552,7 @@ class InputRangeGraph {
             }
             .${ this._CLASS } input[type="range"] {
                 position: absolute;
-                inset: 0 0 100% 100%;
+                inset: 0 100% 100% 0;
             }
             .${ this._CLASS } input[type="range"]::-webkit-slider-thumb {
                 display: none;

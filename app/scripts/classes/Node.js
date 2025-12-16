@@ -1,9 +1,10 @@
 import { WIDTH, COLOR } from "../common/styles.js";
 import { eNodeType } from "../common/enums.js";
 import { getEl, createRadioButton } from "../common/ui.js";
-import { selectOutput, reRender } from "../modules/tone.js";
+import { selectOutput, connectOutput, reRender } from "../modules/tone.js";
 import { setTile } from "../modules/page.js";
 import { currentTone } from "../modules/tone.js";
+import { updateMaxDuration } from "../modules/envelope.js";
 
 
 //
@@ -25,7 +26,6 @@ export class Node {
         [eNodeType.Efx]:   getEl('#EL_TONE_EFX')
     };
     static latestNodeIndex = 0;
-    static latestToneIndex = 0;
 
     CTX = null;
     EL = null;
@@ -43,19 +43,23 @@ export class Node {
     _offset = 0;
 
     constructor(child, type, clickCallback, isArpeggChild) {
-        const
-            IS_TONE = type === eNodeType.Tone,
-            RADIO_I = IS_TONE ? Node.latestToneIndex : Node.latestNodeIndex;
+        const IS_TONE = type === eNodeType.Tone;
         this.type = type;
         this.child = child;
-        this.parentToneIndex = currentTone?.index || 0;
 
-        Node.NODES[type].push(this);
+        let RADIO_I;
         if (IS_TONE) {
-            Node.latestToneIndex += 1;
+            while (Node.NODES[eNodeType.Tone].some(t => t.parentToneIndex === this.parentToneIndex)) {
+                this.parentToneIndex += 1;
+            }
+            RADIO_I = this.parentToneIndex;
         } else {
+            this.parentToneIndex = currentTone?.index || 0;
+            RADIO_I = Node.latestNodeIndex;
             Node.latestNodeIndex += 1;
         }
+
+        Node.NODES[type].push(this);
 
         // Radio button
         const
@@ -103,7 +107,7 @@ export class Node {
             EL.style.height = WIDTH.nodeH + 'px';
             const SHORTCUT_TEXT = document.createElement('span');
             SHORTCUT_TEXT.classList.add(CLASS + '-shortcut');
-            SHORTCUT_TEXT.innerHTML = '⇧&nbsp;' + (RADIO_I + 1);
+            SHORTCUT_TEXT.innerHTML = '<span>[</span><span>]</span>'
             EL.appendChild(SHORTCUT_TEXT)
         } else if (type === eNodeType.Tex || type === eNodeType.Envel || type === eNodeType.Efx) {
             const
@@ -241,13 +245,17 @@ export class Node {
 
     delete() {
         const
+            IS_TONE = this.type === eNodeType.Tone,
             ACTIVE_NODES = Object
                 .values(Node.NODES)
                 .flat()
-                .filter(n =>
-                    n.type !== eNodeType.Tone &&
-                    n.parentToneIndex === currentTone.index &&
-                    !n.isArpeggChild
+                .filter(n => IS_TONE
+                    ? n.type === eNodeType.Tone
+                    : (
+                        n.type !== eNodeType.Tone &&
+                        n.parentToneIndex === currentTone.index &&
+                        !n.isArpeggChild
+                    )
                 ),
             INDEX = Node.NODES[this.type].indexOf(this),
             ALL_INDEX = ACTIVE_NODES.indexOf(this);
@@ -258,7 +266,15 @@ export class Node {
         this.EL.parentElement.removeChild(this.EL);
         Node.NODES[this.type].splice(INDEX, 1);
         if (!this.isArpeggChild && this.type === eNodeType.Envel) {
-            Envel.updateMaxDuration();
+            updateMaxDuration();
+        }
+
+        if (IS_TONE) {
+            Object
+                .values(Node.NODES)
+                .flat()
+                .filter(n => n.parentToneIndex === this.parentToneIndex)
+                .forEach(n => n.delete());
         }
 
         // Focus nearest node, if deleted node is in focus

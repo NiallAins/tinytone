@@ -13,10 +13,13 @@ import { setTex } from "../modules/texture.js";
 
 export class Tex {
     static REL_GAIN = {
-        [eTexType.Square]: 0.35,
-        [eTexType.Sawtooth]: 0.35,
-        [eTexType.Triangle]: 1.15,
-        [eTexType.Noise]: 0.45
+        [eTexType.Sine]: 1,
+        [eTexType.Square]: 0.12,
+        [eTexType.Triangle]: 0.75,
+        [eTexType.Sawtooth]: 0.2,
+        [eTexType.Noise]: 0.5,
+        [eTexType.Custom]: 0.75,
+        [eTexType.Preset]: 0.75
     };
 
     detune = 0;
@@ -45,10 +48,8 @@ export class Tex {
     }
 
     set wave(type) {
-        if (this.degain === (Tex.REL_GAIN[this.type] || 1)) {
-            this.degain = Tex.REL_GAIN[type] || 1;
-        }
-
+        this.degain = Tex.REL_GAIN[type];
+        this.octave = 0;
         this.type = type;
     }
 

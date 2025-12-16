@@ -47,8 +47,8 @@ export function add() {
     setTex(new Tex());
 }
 
-export function reRender() {
-    renderChart();
+export function reRender(tex) {
+    renderChart(tex);
 }
 
 export function setTex(tex) {

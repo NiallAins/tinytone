@@ -4,9 +4,14 @@
 
     &--tone {
         text-align: center;
+        line-height: 2rem;
+    }
+
+    &--prev,
+    &--next {
         line-height: 1.375rem;
 
-        @include small-viewport {
+         @include small-viewport {
             line-height: 2rem;
         }
     }
@@ -21,13 +26,23 @@
         left: calc(50% - 0.5rem);
         bottom: 0.125rem;
         display: block;
-        font-size: $f-size-xs;
+        font-size: $f-size-sm;
         font-style: italic;
         color: $c-text-l;
 
         @include small-viewport {
             display: none;
         }
+
+        & > :first-child,
+        & > :last-child {
+            display: none;
+        }
+    }
+
+    &--prev &-shortcut > :first-child,
+    &--next &-shortcut > :last-child {
+        display: inline-block;
     }
 
     &:has(button:hover, button:focus-visible) {

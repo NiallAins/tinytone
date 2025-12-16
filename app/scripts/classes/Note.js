@@ -1,4 +1,4 @@
-import { MAX_DEGAIN, MIN_FADE, MIN_GAIN, TWELVE_RT_2, OSC_TYPES, MS_TO_S } from "../common/consts.js";
+import { MIN_FADE, MIN_GAIN, TWELVE_RT_2, OSC_TYPES, MS_TO_S } from "../common/consts.js";
 import { eTexType, eEffectType, eVibratoType, eEnvelStage, eEnvelKeyHold, eEnvelKeyUp } from "../common/enums.js";
 import { IRs } from "../modules/sound.js";
 
@@ -28,7 +28,7 @@ export class Note {
                 GAIN_NODE_DEGAIN = ctx.createGain();
 
             GAIN_NODE_TREMOLO.gain.value = 1;
-            GAIN_NODE_DEGAIN.gain.value = tone.tex.degain / MAX_DEGAIN;
+            GAIN_NODE_DEGAIN.gain.value = tone.tex.degain;
 
             // Pure texture
             GAIN_NODE_TREMOLO
@@ -118,7 +118,7 @@ export class Note {
                         const
                             DISTORT = this.CTX.createWaveShaper(),
                             SCALE_DISTORT = this.CTX.createGain();
-                        SCALE_DISTORT.gain.value = Notee.GAIN_SCALE_ISTORT;
+                        SCALE_DISTORT.gain.value = Note.GAIN_SCALE_DISTORT;
                         DISTORT.curve = e.distortCurve;
                         oscNode
                             .connect(DISTORT)

@@ -2,9 +2,9 @@
     $w-gap: 1rem;
     $w-inp: 27rem;
     $w-arp: 5rem;
-    $w-extra: 4rem;
-    $w-can: calc(100% - #{ $w-inp - $w-gap } + $w-extra);
-    $w-can-arp: calc(100% - #{ $w-inp - $w-gap + $w-arp } + $w-extra);
+    $w-extra: 3.25rem;
+    $w-can: calc(100% - #{ $w-inp - $w-gap - $w-extra });
+    $w-can-arp: calc(100% - #{ $w-inp - $w-gap + $w-arp - $w-extra });
 
     gap: $w-gap;
     overflow: hidden;

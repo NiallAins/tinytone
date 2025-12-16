@@ -47,6 +47,10 @@
         display: grid;
         grid-template-columns: $w-row-head auto;
 
+        &:not(:has(.tone__node--tone)) > div:not(:last-child) .tone__add {
+            display: none;
+        }
+
         &-head {
             position: sticky;
             left: 0;

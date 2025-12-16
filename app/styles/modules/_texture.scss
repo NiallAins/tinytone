@@ -113,14 +113,14 @@
         & &--degain {
             position: relative;
             left: 1.125rem;
-            height: calc(100% - 3rem);
+            height: calc(100% - 4.25rem);
             writing-mode: sideways-lr;
         }
 
         &--degain#{&}-input {
             position: relative;
             width: 0.125rem;
-            margin: 0 0.75rem;
+            margin: 0.75rem 0.75rem 0;
 
             &,
             &::-webkit-slider-thumb {

@@ -8,7 +8,7 @@ import { reRender as reRenderTone } from './tone.js';
 import { reRender as reRenderEfx } from './effect.js';
 import { startNote as startNoteSound, finishNote as finishNoteSound } from './sound.js';
 import { startNote as startNoteKey, finishNote as finishNoteKey } from './keys.js';
-import { downloadLibraryDTs, downloadLibraryJs, downloadLibraryMJs } from './export.js';
+import { setEncodedTones, downloadLibraryDTs, downloadLibraryJs, downloadLibraryMJs } from './export.js';
 import { currentTone } from './tone.js';
 
 

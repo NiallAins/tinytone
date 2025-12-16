@@ -2,16 +2,19 @@
 <html>
 
 <head>
+    <!-- Meta -->
     <title>
         TinyTone | A simple synth library
     </title>
-    <link
-        rel="stylesheet"
-        href="./app/styles/style.css"
-    />
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1"
+    />
+
+    <!-- Styles -->
+    <link
+        rel="stylesheet"
+        href="./app/styles/style.css"
     />
 </head>
 
@@ -26,6 +29,11 @@
             page--create
         "
     >
+
+        <!--
+        ---- Section: Header
+        --->
+
         <header class="header">
             <h1 class="header__title">
                 TinyTone
@@ -77,6 +85,11 @@
             </div>
         </header>
 
+
+        <!--
+        ---- Tab: Create
+        --->
+
         <div
             id="EL_GRID"
             class="
@@ -85,6 +98,7 @@
                 grid--tex
             "
         >
+            <!-- Mobile panel close  -->
             <div class="grid__close-panel">
                 <button
                     class="grid__close-panel-button"
@@ -92,7 +106,13 @@
                 ></button>
             </div>
             
+            <!-- No module selected -->
             <div class="empty"></div>
+
+
+            <!--
+            ---- Module: Effect
+            --->
 
             <div class="efx">
                 <div
@@ -104,6 +124,11 @@
                     class="efx__canvas"
                 ></div>
             </div>
+
+
+            <!--
+            ---- Module: Envelope
+            --->
 
             <div class="envel">
                 <div
@@ -369,6 +394,11 @@
                 ></div>
             </div>
 
+
+            <!--
+            ---- Module: Texture
+            --->
+
             <div class="tex">
                 <div
                     id="EL_INP_TEX_CONTAIN"
@@ -395,8 +425,8 @@
                             tex__canvas-input
                         "
                         type="range"
-                        min="0.25"
-                        max="1.25"
+                        min="0.2"
+                        max="1"
                         value="1"
                         step="0.01"
                     />
@@ -440,6 +470,11 @@
                     ></canvas>
                 </div>
             </div>
+
+
+            <!--
+            ---- Module: Tone
+            --->
 
             <div
                 id="EL_TONE_CONTAIN"
@@ -500,6 +535,11 @@
                 </div>
             </div>
 
+
+            <!--
+            ---- Module: Keys
+            --->
+
             <div class="keys">
                 <div
                     id="EL_KEYS_CONTAIN"
@@ -507,6 +547,11 @@
                 ></div>
             </div>
         </div>
+
+
+        <!--
+        ---- Tab: Export
+        --->
 
         <div class="page__export">
             <div class="
@@ -670,6 +715,11 @@ TONE.play(NOTES);</code>
                 </p>
             </div>
 
+
+            <!--
+            ---- Tab: About
+            --->
+
             <div class="page__about-section">
                 <h2>
                     Using tones
@@ -798,6 +848,7 @@ const Tone implements iTone;</code>
         </div>
     </div>
 
+    <!-- Scripts -->
     <script src="./app/scripts/components/inputRangeGraph.js"></script>
     <script
         type="module"

@@ -18,7 +18,6 @@ Before adding `tinytone.js` library code to export module, ugligy with `skalman.
 
 ### Bugs
 
-- When tone is deleted, tone number and shortcuts desync
 - Sticky tone headers break on mobile after fifth tones - refactor UI
 
 

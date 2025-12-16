@@ -11,7 +11,6 @@ export const
     MIN_FADE = 5,
     MIN_FADE_STEP = 10,
     MAX_GAIN = 1,
-    MAX_DEGAIN = 1.25,
     MID_GAIN = 0.5,
     MIN_GAIN = 0.00001,
     DEFAULT_MAX_DURATION = 1500,

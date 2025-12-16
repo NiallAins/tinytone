@@ -120,7 +120,7 @@ export function updateMaxDuration() {
 }
 
 export function updateInputValue(stage, value) {
-    Envel.INPUTS.setInputProperty( stage, 'value', value);
+    INPUTS.setInputProperty( stage, 'value', value);
 }
 
 
@@ -178,6 +178,7 @@ function initInputs() {
     // Detach arpeggio
     getEl('#EL_ENVEL_INPUTS_DETACH').onclick = () => {
         currentEnvel.detachArpegg();
+        window.closePanel();
         CONTROLS.arpegg.click();
     };
 
@@ -237,7 +238,7 @@ function initCanvas() {
                 oninput: function(value, prevValue, inps) {
                     const DX = value[0] - prevValue[0];
                     inps
-                        .filter(inp => inp.index > index && inp.index <= eEnvelStage.Release)
+                        .filter(inp => inp.index > this.index && inp.index <= eEnvelStage.Release)
                         .forEach(inp => inp.x = inp.x + DX);
                 }
             };
