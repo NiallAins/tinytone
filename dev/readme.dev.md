@@ -2,16 +2,18 @@
 
 ## Development
 
-### Build library from TS file
+Before compiling library install:
 
 ```bash
-tsc -w ./library/tinytone.ts -t esNext --module preserve --removeComments
+npm install uglify-js -g
+npm install typescript -g
 ```
 
-### Uglify
+Compile and build library by running:
 
-Before adding `tinytone.js` library code to export module, ugligy with `skalman.github.io/UglifyJS-online/`.
-
+```bash
+.\library\build.sh
+```
 
 ## To do
 

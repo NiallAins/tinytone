@@ -2,7 +2,7 @@
 // Public definitions
 //
 
-import { tNote, tNoteObject, tNoteArray, Tone as iTone } from './tinytone.defs';
+import type { tNote, tNoteObject, tNoteArray, Tone as iTone } from './tinytone.defs';
 
 //
 // Private definitions
@@ -147,7 +147,7 @@ const Tone: typeof iTone = (function(tonesEncoded: tTonesEncoded) {
     const
         MAX_NOTES = 8,
         GAIN_SCALE_DISTORT = 0.25,
-        MIN_FADE = 5,
+        MIN_FADE = 10,
         MIN_GAIN = 0.0001;
 
     //
