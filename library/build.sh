@@ -2,7 +2,7 @@
 
 # Transpile and minify
 tsc ./library/tinytone.ts -t esNext --module preserve;
-uglifyjs ./library/tinytone.js -o ./dev/tinytone.js;
+uglifyjs ./library/tinytone.js -o ./dev/tinytone.js -c -m;
 rm ./library/*.js;
 
 # Copy library to data folder
