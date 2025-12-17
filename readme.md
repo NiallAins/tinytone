@@ -90,6 +90,22 @@ You can also import the library as a module, or import the library into a typesc
 #### Full library API
 
 ```ts
+type tNote = number | string/[A-G][b#]?[0-9]?/;
+
+type tNoteArray = [
+    note:     tNote,
+    start:    number = 0,
+    sustain:  number = 0,
+    tone:     number = 0
+];
+
+type tNoteObject = {
+    note:    tNote,
+    start:   number = 0,
+    sustain: number = 0,
+    tone:    number = 0
+};
+
 interface Tone {
     play(
         note: tNote | tNote[] | tNoteArray[] | tNoteObject[],
@@ -105,18 +121,4 @@ interface Tone {
         id?: number
     ): void;
 }
-
-type tNote = number | string</[A-G][b#]?[0-9]*/>;
-type tNoteArray = [
-    note:     tNote,
-    start:    number = 0,
-    sustain:  number = 0,
-    tone:     number = 0
-];
-type tNoteObject = {
-    note:    tNote,
-    start:   number = 0,
-    sustain: number = 0,
-    tone:    number = 0
-};
 ```
