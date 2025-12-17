@@ -759,6 +759,9 @@ class InputRangeGraph {
     }
 
     _updateSize() {
+        if (this.CANVAS.offsetWidth <= 0 || this.CANVAS.offsetHeight <= 0) {
+            return;
+        }
         const QUALITY = 2;
         this.CANVAS.width  = this.CANVAS.offsetWidth  * QUALITY;
         this.CANVAS.height = this.CANVAS.offsetHeight * QUALITY;

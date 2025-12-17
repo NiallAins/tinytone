@@ -1,7 +1,8 @@
 import { TWELVE_RT_2, TONES_PLACEHOLDER_STRING } from "../common/consts.js";
-import { eTexType, eEnvelStage } from "../common/enums.js";
+import { eTexType, eEnvelStage, eEffectType } from "../common/enums.js";
 import { getEl } from "../common/ui.js";
 import { getAllTones } from "./tone.js";
+import { Efx } from "../classes/Efx.js";
 import LIBRARY_JS_BODY from "../data/tinytone.export.js";
 import LIBRARY_DTS_BODY from "../data/tinytone.defs.export.js";
 
@@ -98,7 +99,7 @@ function getEncodedTones() {
                         e.type === eEffectType.Reverb
                             ? [ e.reverbType ]
                             : e.type === eEffectType.Distortion
-                            ? [ _Efx.DISTORT_SHARPS[e._distortSharpDisplay] ]
+                            ? [ Efx.DISTORT_SHARPS[e._distortSharpDisplay] ]
                             : [
                                 e.vibratoType,
                                 e.vibratoRate

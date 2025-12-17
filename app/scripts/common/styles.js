@@ -2,10 +2,10 @@
 // Get vars
 //
 
-let _CSS_VARS = getComputedStyle(document.body);
+let CSS_VARS = getComputedStyle(document.body);
 
 function _cssVar(name, remToNum = false) {
-    const VALUE = _CSS_VARS.getPropertyValue('--' + name);
+    const VALUE = CSS_VARS.getPropertyValue('--' + name);
     return remToNum
         ? parseFloat(VALUE) * REM
         : VALUE;
@@ -72,11 +72,11 @@ function _setColorOpacity(color, opacity) {
         .replace(')', `, ${ 100 * opacity }%)`);
 }
 
-const _ENVEL_COLOR_ORDER = [0, 0, 8, 3, 6, 1, 0];
+const ENVEL_COLOR_ORDER = [0, 0, 8, 3, 6, 1, 0];
 export let COLOR = {};
 
 export function setColors() {
-    _CSS_VARS = getComputedStyle(document.body);
+    CSS_VARS = getComputedStyle(document.body);
 
     const HIGHLIGHTS = new Array(_cssVar('c-highlight-count', true) / REM)
         .fill('')
@@ -97,11 +97,11 @@ export function setColors() {
             HIGHLIGHTS[8],
             HIGHLIGHTS[9]
         ],
-        envelStroke: _ENVEL_COLOR_ORDER.map((c, ci, cArr) => ci && ci < cArr.length - 1
+        envelStroke: ENVEL_COLOR_ORDER.map((c, ci, cArr) => ci && ci < cArr.length - 1
             ? HIGHLIGHTS[c]
             : '#00000000'
         ),
-        envelFill: _ENVEL_COLOR_ORDER.map((c, ci, cArr) => ci && ci < cArr.length - 1
+        envelFill: ENVEL_COLOR_ORDER.map((c, ci, cArr) => ci && ci < cArr.length - 1
             ? _setColorOpacity(HIGHLIGHTS[c], 0.3)
             : '#00000000'
         ),

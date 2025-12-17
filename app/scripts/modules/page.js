@@ -80,7 +80,7 @@ function exposeFunctions() {
             finishNoteSound(ID);
         }
     };
-    document.body.addEventListener('blur', () => finishNoteSound());
+    window.addEventListener('blur', () => finishNoteSound());
 
     window.downloadLibraryJs  = downloadLibraryJs;
     window.downloadLibraryMJs = downloadLibraryMJs;
