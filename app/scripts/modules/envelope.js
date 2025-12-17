@@ -57,6 +57,10 @@ export function add() {
     setEnvel(new Envel());
 }
 
+export function reRender() {
+    INPUTS.render();
+}
+
 export function setEnvel(envel) {
     if (currentEnvel !== envel) {
         const OLD_ENVEL = currentEnvel;
@@ -292,21 +296,23 @@ function renderChart(c, pts, toPx) {
     // Sections
     c.save();
         let prevP = ORIGIN;
-        pts.forEach((p, pi) => {
-            c.save();
-                c.beginPath();
-                    c.moveTo(prevP.x, prevP.y);
-                    c.lineTo(p.x, p.y);
-                c.strokeStyle = COLOR.envelStroke[pi];
-                c.lineWidth = WIDTH.envelStroke;
-                c.stroke();
-                    c.lineTo(p.x, ORIGIN.y)
-                    c.lineTo(prevP.x, ORIGIN.y);
-                c.fillStyle = COLOR.envelFill[pi];
-                c.fill();
-                prevP = p;
-            c.restore();
-        });
+        pts
+            .filter((_, pi) => pi <= eEnvelStage.Release)
+            .forEach((p, pi) => {
+                c.save();
+                    c.beginPath();
+                        c.moveTo(prevP.x, prevP.y);
+                        c.lineTo(p.x, p.y);
+                    c.strokeStyle = COLOR.envelStroke[pi];
+                    c.lineWidth = WIDTH.envelStroke;
+                    c.stroke();
+                        c.lineTo(p.x, ORIGIN.y)
+                        c.lineTo(prevP.x, ORIGIN.y);
+                    c.fillStyle = COLOR.envelFill[pi];
+                    c.fill();
+                    prevP = p;
+                c.restore();
+            });
     c.restore();
 
     // Axis

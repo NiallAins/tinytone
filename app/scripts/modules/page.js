@@ -6,6 +6,7 @@ import { Node } from '../classes/Node.js';
 import { reRender as reRenderTex } from './texture.js';
 import { reRender as reRenderTone } from './tone.js';
 import { reRender as reRenderEfx } from './effect.js';
+import { reRender as reRenderEnvel } from './envelope.js';
 import { startNote as startNoteSound, finishNote as finishNoteSound } from './sound.js';
 import { startNote as startNoteKey, finishNote as finishNoteKey } from './keys.js';
 import { setEncodedTones, downloadLibraryDTs, downloadLibraryJs, downloadLibraryMJs } from './export.js';
@@ -77,6 +78,7 @@ function exposeFunctions() {
         const ID = finishNoteKey(key);
         finishNoteSound(ID);
     };
+    window.addEventListener('blur', () => finishNoteSound());
 
     window.downloadLibraryJs  = downloadLibraryJs;
     window.downloadLibraryMJs = downloadLibraryMJs;
@@ -103,6 +105,7 @@ function toggleTheme() {
     }
     setColors();
 
+    reRenderEnvel();
     reRenderEfx();
     reRenderTex();
     reRenderTone();

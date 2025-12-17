@@ -33,8 +33,10 @@ export function startNote(tone, freq) {
     return NOTE.ID;
 }
 
-export function finishNote(noteId) {
-    Note.NOTES.find(n => n.ID === noteId)?.finish();
+export function finishNote(id = -1) {
+    Note.NOTES
+        .filter(n => id === -1 || n.ID === id)
+        .forEach(n => n.finish());
 }
 
 
