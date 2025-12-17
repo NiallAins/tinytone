@@ -8,7 +8,7 @@ export const
     CAN_QUALITY = 2,
     TWELVE_RT_2 = 1.059463,
     OVERTONE_COUNT = 8,
-    MIN_FADE = 5,
+    MIN_FADE = 10,
     MIN_FADE_STEP = 10,
     MAX_GAIN = 1,
     MID_GAIN = 0.5,
