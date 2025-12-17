@@ -43,7 +43,9 @@ export function setEncodedTones() {
     encodedTones = getEncodedTones();
     const SIZE = Math.floor((LIBRARY_JS[1].length + encodedTones.length) / 100) / 10;
     EL_SIZES.forEach(el => el.innerText = SIZE);
-    // navigator.clipboard.writeText('const $_TONES_ = ' + encodedTones);
+    if (window.location.href.indexOf('?test') !== -1) {
+        navigator.clipboard.writeText(encodedTones);
+    }
 }
 
 export function downloadLibraryJs() {

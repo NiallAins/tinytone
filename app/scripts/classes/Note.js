@@ -4,7 +4,8 @@ import { IRs } from "../modules/sound.js";
 
 export class Note {
     static NOTES = [];
-    static GAIN_SCALE = 0.5;
+    static MAX_NOTES = 8;
+    static GAIN_SCALE = 0.75;
     static GAIN_SCALE_DISTORT = 0.25;
 
     ID = Math.random() * 1e18;
@@ -184,6 +185,9 @@ export class Note {
 
         // Save
         Note.NOTES.push(this);
+        if (Note.NOTES.length > Note.MAX_NOTES) {
+            Note.NOTES[0].stop();
+        }
     }
 
     _setGain(gainNode, level = -1, time = 0) {
