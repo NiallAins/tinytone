@@ -16,6 +16,10 @@
         margin-bottom: 2rem;
         border-radius: $w-radius-lg;
         background-color: $c-bg-secondary;
+
+        @include small-viewport {
+            padding: 1.5rem 1rem;
+        }
     }
 
     &__about-lede,
