@@ -76,9 +76,11 @@ function exposeFunctions() {
 
     window.finishNote = (key) => {
         const ID = finishNoteKey(key);
-        finishNoteSound(ID);
+        if (ID !== -1) {
+            finishNoteSound(ID);
+        }
     };
-    window.addEventListener('blur', () => finishNoteSound());
+    document.body.addEventListener('blur', () => finishNoteSound());
 
     window.downloadLibraryJs  = downloadLibraryJs;
     window.downloadLibraryMJs = downloadLibraryMJs;

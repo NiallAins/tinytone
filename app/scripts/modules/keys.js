@@ -35,9 +35,13 @@ export function startNote(ID, key) {
 }
 
 export function finishNote(key) {
-    const ID = ACTIVE_NOTE_IDS[key];
-    delete ACTIVE_NOTE_IDS[key];
-    return ID;
+    if (ACTIVE_NOTE_IDS[key]) {
+        const ID = ACTIVE_NOTE_IDS[key];
+        delete ACTIVE_NOTE_IDS[key];
+        return ID;
+    } else {
+        return -1;
+    }
 }
 
 
