@@ -101,6 +101,22 @@ button {
   color: var(--c-fg);
 }
 
+a,
+.link {
+  padding: 0 0.25rem;
+  border: none;
+  color: var(--c-fg);
+  text-decoration: underline;
+  text-underline-offset: 0.25rem;
+  background-color: unset;
+}
+a:hover, a:focus-visible,
+.link:hover,
+.link:focus-visible {
+  color: var(--c-fg-active);
+  background-color: unset;
+}
+
 h2 {
   font-size: 1.375rem;
   font-weight: 500;
@@ -154,6 +170,7 @@ button:hover,
 .link-button:hover,
 .radio-button:hover,
 [role=tablist] label:hover {
+  color: var(--c-fg);
   background-color: var(--c-bg-d);
 }
 button:focus-visible, button:has(button__input:focus-visible,
@@ -637,16 +654,7 @@ input[type=range]:focus-visible::-webkit-slider-thumb {
   grid-column: span 6;
 }
 .envel__inputs-detach {
-  padding: 0 0.25rem;
-  border: none;
-  text-decoration: underline;
   text-decoration-style: dotted;
-  text-underline-offset: 0.25rem;
-  background-color: unset;
-}
-.envel__inputs-detach:hover, .envel__inputs-detach:focus-visible {
-  color: var(--c-fg-active);
-  background-color: unset;
 }
 
 .tex {

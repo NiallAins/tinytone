@@ -6,7 +6,7 @@
 The app allows you to create tones by combining audio textures, envelopes, and effects.
 The library allows you to then import and use these tones in your project.
 
-[Link to the TinyTone web app](niallains.github.io/tinytone)
+[Link to the <b>TinyTone</b> web app](https://niallains.github.io/tinytone/)
 
 ### Create tones
 
@@ -27,7 +27,7 @@ You can also import the library as a module, or import the library into a typesc
 ```html
 <html>
     <head>
-        <script src="./tone.js"></script>
+        <script src="./tinytone.js"></script>
     </head>
 </html>
 ```
@@ -55,9 +55,9 @@ You can also import the library as a module, or import the library into a typesc
     ]);
     Tone.play([
         { note: 'A', start: 1000, sustain: 200 }
-    ])
+    ]);
 
-    // Play several notes with given times, sustains, and tones
+    // Play several notes with given start times, sustains, and tones
     Tone.play([
         ['A',   0, 400, 1],
         ['C', 100, 300, 2],
@@ -87,7 +87,7 @@ You can also import the library as a module, or import the library into a typesc
     Tone.finish();
 ```
 
-#### Full API
+#### Full library API
 
 ```ts
 interface Tone {
@@ -109,14 +109,14 @@ interface Tone {
 type tNote = number | string</[A-G][b#]?[0-9]*/>;
 type tNoteArray = [
     note:     tNote,
-    start?:   number,
+    start:    number = 0,
     sustain:  number = 0,
     tone:     number = 0
 ];
 type tNoteObject = {
-    note:     tNote,
-    start?:   number,
-    sustain?: number,
-    tone?:    number
+    note:    tNote,
+    start:   number = 0,
+    sustain: number = 0,
+    tone:    number = 0
 };
 ```
