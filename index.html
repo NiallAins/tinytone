@@ -806,17 +806,17 @@ Tone.finish(ID);</code>
                 </h2>
                 <p>
 
-<code class="code">type note = number | string&lt;/[A-G][b#]{0,2}[0-9]*/&gt;
+<code class="code">type tNote = number | string/[A-G][b#]?[0-9]?/;
 
 type tNoteArray = [
-    note,
+    note:    tNote,
     start:   number = 0,
     sustain: number = 0,
     tone:    number = 0
 ]
 
 type tNoteObject = {
-    note:    note,
+    note:    tNote,
     start:   number = 0,
     sustain: number = 0,
     tone:    number = 0
