@@ -13,7 +13,10 @@ import { Tex } from "../classes/Tex.js";
 //
 
 const
-    INPS_TYPE = [];
+    INPS_TYPE = [],
+    INPS_PRESET = [],
+    INPS_REAL = [],
+    INPS_IMG = [];
 let
     CTX = null,
     A_CTX = null,
@@ -55,6 +58,11 @@ export function setTex(tex) {
     if (currentTex !== tex) {
         currentTex = tex;
         INPS_TYPE[tex.type].click();
+        if (tex.type === eTexType.Preset) {
+            INPS_PRESET[tex.presetWave].click();
+        }
+        INPS_REAL.forEach((inp, i) => inp.value = tex.customWave[0][i + 1]);
+        INPS_IMG.forEach((inp, i) => inp.value = tex.customWave[1][i + 1]);
         INP_DETUNE.value = currentTex.detune;
         INP_DEGAIN.value = currentTex.degain;
         INP_OCTAVE.value = currentTex.octave;
@@ -78,6 +86,7 @@ function setType(type, preset = -1) {
     INP_DETUNE.value = currentTex.detune;
     INP_DEGAIN.value = currentTex.degain;
     INP_OCTAVE.value = currentTex.octave;
+
     queueRenderChart();
 }
 
@@ -169,6 +178,7 @@ function initInputs() {
             inp[0].checked = i === 0;
             inp[0].oninput = () => setType(eTexType.Preset, i);
             EL_CONTAIN_PRESET.appendChild(inp[1]);
+            INPS_PRESET.push(inp[0]);
         });
 
     for (let i = 1; i <= OVERTONE_COUNT; i++) {
@@ -177,10 +187,12 @@ function initInputs() {
             INP_IMG  = createRangeInput(0, 10);
         INP_REAL.oninput = () => {
             currentTex.setOvertone(i, 0, parseFloat(INP_REAL.value));
+            INPS_REAL.push(INP_REAL);
             queueRenderChart();
         }
         INP_IMG.oninput = () => {
             currentTex.setOvertone(i, 1, parseFloat(INP_IMG.value));
+            INPS_IMG.push(INP_IMG);
             queueRenderChart();
         }
         EL_CONTAIN_OVER.appendChild(INP_REAL);
