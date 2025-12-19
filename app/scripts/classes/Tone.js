@@ -95,6 +95,31 @@ export class Tone {
             return r;
         });
 
+        // Normlise volume
+        // let maxGain = 0;
+        // ROUTES
+        //     .map(r => r.envel.stages
+        //         .filter((_, si) => si <= eEnvelStage.Release)
+        //     )
+        //     .forEach((currentEnvel, _, envels) =>
+        //         currentEnvel.forEach(currentStage => {
+        //             let gain = 0;
+        //             envels.forEach(targetEnvel => {
+        //                 const TARGET_NEXT_I = targetEnvel
+        //                     .findIndex(s => s.time >= currentStage.time);
+        //                 if (TARGET_NEXT_I > 0) {
+        //                     const
+        //                         TARGET_PREV = targetEnvel[TARGET_NEXT_I - 1],
+        //                         TARGET_NEXT = targetEnvel[TARGET_NEXT_I],
+        //                         RATIO = (currentStage.time - TARGET_PREV.time) / (TARGET_NEXT.time - TARGET_PREV.time);
+        //                     gain += TARGET_PREV.gain + ((TARGET_NEXT.gain - TARGET_PREV.gain) * RATIO);
+        //                 }
+        //             });
+        //             maxGain = Math.max(maxGain, gain);
+        //         })
+        //     );
+        // ROUTES.forEach(r => r.maxCombinedGain = maxGain);
+
         return ROUTES;
     }
 

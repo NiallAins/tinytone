@@ -867,6 +867,9 @@ input[type=range]:focus-visible::-webkit-slider-thumb {
   z-index: 10;
   pointer-events: none;
 }
+.tone__canvas--fg {
+  z-index: 21;
+}
 .tone__grid {
   display: grid;
   grid-template-columns: 3rem auto;

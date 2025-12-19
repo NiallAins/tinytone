@@ -27,7 +27,9 @@ const
     CLASS_SHOW_INPUTS = 'tone--show-inputs';
 let
     CTX = null,
-    CAN = null;
+    CAN = null,
+    CTX_FG = null,
+    CAN_FG = null;
 
 
 //
@@ -85,12 +87,20 @@ export function getAllTones() {
 
 export function updateCanvasWidth() {
     const CAN_W = getEl('#EL_TONE_SCROLL').scrollWidth - WIDTH.rowHead;
+
     CAN.width = CAN_W * CAN_QUALITY;
     CAN.style.width = CAN_W + 'px';
+
+    CAN_FG.width = CAN_W * CAN_QUALITY;
+    CAN_FG.style.width = CAN_W + 'px';
 
     CTX.scale(CAN_QUALITY, CAN_QUALITY);
     CTX.lineJoin = 'bevel';
     CTX.lineWidth = WIDTH.toneStroke;
+
+    CTX_FG.scale(CAN_QUALITY, CAN_QUALITY);
+    CTX_FG.lineJoin = 'bevel';
+    CTX_FG.lineWidth = WIDTH.toneStroke;
 
     renderChart();
 }
@@ -160,6 +170,7 @@ export function connectOutput(node, inSlot) {
         renderChart();
     }
     selectedOutput = null;
+    clearCanvas(CTX_FG);
 }
 
 
@@ -258,6 +269,14 @@ function initCanvas() {
     CAN.style.height = CAN_H + 'px';
     CTX = CAN.getContext('2d');
 
+    CAN_FG = getEl('#EL_CAN_TONE_FG');
+    CAN_FG.height = CAN_H * CAN_QUALITY;
+    CAN_FG.style.height = CAN_H + 'px';
+    CTX_FG = CAN_FG.getContext('2d');
+
+    window.addEventListener('mousemove', e => renderChartFg(e));
+    window.addEventListener('touchmove', e => renderChartFg(e.touches[0]));
+
     updateCanvasWidth();
 }
 
@@ -265,6 +284,7 @@ function unselectOutput() {
     if (selectedOutput) {
         setTimeout(() => {
             selectedOutput = null;
+            clearCanvas(CTX_FG);
             EL_CONTAIN.classList.remove(CLASS_SHOW_INPUTS);
         });
     }
@@ -430,6 +450,65 @@ function getConnectionColors(node, ii, color, colors) {
             .filter(o => o.outSlot === ii)
             .forEach(o => getConnectionColors(o.node, o.inSlot, color, colors));
     }
+}
+
+function renderChartFg(e) {
+    if (!selectedOutput) {
+        return;
+    }
+
+    const C = CTX_FG;
+    clearCanvas(C);
+
+    const
+        BOX = CAN_FG.getBoundingClientRect(),
+        P0 = getOutputPosition(selectedOutput.node, selectedOutput.outSlot),
+        P1 = [
+            e.clientX - BOX.left,
+            e.clientY - BOX.top
+        ],
+        LOOP = P1[1] - P0[1] > -25;
+
+    C.beginPath();
+        C.moveTo(...P0);
+        if (LOOP) {
+            const
+                TO_LEFT = P1[0] < P0[0],
+                OFFSET_X = 0,
+                OFFSET_Y = 0,
+                ARC_RAD = Math.min(WIDTH.toneStrokeArcRad * 0.5, Math.abs(P1[0] - P0[0]) / 8),
+                ARC_RAD_X = ARC_RAD * (TO_LEFT ? -1 : 1),
+                ARC_END_OUT = [
+                    P0[0] + ARC_RAD_X + OFFSET_X,
+                    P0[1] - ARC_RAD - WIDTH.nodeConnectKink + OFFSET_Y
+                ],
+                ARC_END_IN = [
+                    P1[0] - ARC_RAD_X + OFFSET_X,
+                    P1[1] + ARC_RAD + WIDTH.nodeConnectKink + OFFSET_Y
+                ];
+            C.arc(
+                ARC_END_OUT[0],
+                ARC_END_OUT[1] + ARC_RAD,
+                ARC_RAD,
+                TO_LEFT ? 0 : Math.PI, Math.PI * 1.5, TO_LEFT
+            );
+            bezierBetween(C, ARC_END_OUT, ARC_END_IN, true);
+            C.arc(
+                ARC_END_IN[0],
+                ARC_END_IN[1] - ARC_RAD,
+                ARC_RAD, Math.PI * 0.5, TO_LEFT ? Math.PI : 0, !TO_LEFT
+            );
+        } else {
+            P0[1] -= 1.5*WIDTH.nodeConnectKink;
+            C.lineTo(...P0);
+            bezierBetween(C, P0, P1);
+        }
+    C.lineWidth = WIDTH.toneStroke + 2*WIDTH.toneStrokeBorder;
+    C.strokeStyle = COLOR.bgTile;
+    C.stroke();
+    C.lineWidth = WIDTH.toneStroke;
+    C.strokeStyle = COLOR.toneStroke[0];
+    C.stroke();
 }
 
 function getOutputPosition(node, outI = 0, isInput = false) {

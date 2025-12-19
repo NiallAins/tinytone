@@ -41,6 +41,10 @@
         left: $w-row-head;
         z-index: $z-tone-canvas;
         pointer-events: none;
+
+        &--fg {
+            z-index: $z-tone-canvas-fg;
+        }
     }
 
     &__grid {
