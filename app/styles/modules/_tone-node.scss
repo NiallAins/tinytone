@@ -174,10 +174,6 @@
             @include parent-with(--tex, 1) {
                 visibility: visible;
             }
-
-            @include parent-with(--show-inputs) {
-                visibility: visible;
-            }
         }
 
         &:before {
@@ -187,5 +183,10 @@
         &:after {
             border-width: 1px 0 0 1px;
         }
+    }
+
+    .tone--show-inputs &--efx &-input--last-visible,
+    .tone--show-inputs-tex &--envel &-input--last-visible {
+        visibility: visible;
     }
 }

@@ -1064,15 +1064,14 @@ input[type=range]:focus-visible::-webkit-slider-thumb {
   visibility: visible;
 }
 
-.tone--show-inputs .tone__node-input--last-visible {
-  visibility: visible;
-}
-
 .tone__node-input:before {
   background: linear-gradient(0, transparent, var(--c-bg-secondary) 87.5%);
 }
 .tone__node-input:after {
   border-width: 1px 0 0 1px;
+}
+.tone--show-inputs .tone__node--efx .tone__node-input--last-visible, .tone--show-inputs-tex .tone__node--envel .tone__node-input--last-visible {
+  visibility: visible;
 }
 
 .keys {

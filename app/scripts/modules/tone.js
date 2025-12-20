@@ -37,7 +37,8 @@ let
 //
 
 let
-    selectedOutput = null;
+    selectedOutput = null,
+    connectionColors = [];
 
 
 //
@@ -145,6 +146,9 @@ export function selectOutput(node, outSlot) {
         outSlot
     };
     EL_CONTAIN.classList.add(CLASS_SHOW_INPUTS);
+    if (selectedOutput.node.type === eNodeType.Tex) {
+        EL_CONTAIN.classList.add(CLASS_SHOW_INPUTS + '-tex');
+    }
 }
 
 export function connectOutput(node, inSlot) {
@@ -285,7 +289,10 @@ function unselectOutput() {
         setTimeout(() => {
             selectedOutput = null;
             clearCanvas(CTX_FG);
-            EL_CONTAIN.classList.remove(CLASS_SHOW_INPUTS);
+            EL_CONTAIN.classList.remove(
+                CLASS_SHOW_INPUTS,
+                CLASS_SHOW_INPUTS + '-tex'
+            );
         });
     }
 }
@@ -306,13 +313,13 @@ function renderChart() {
         return;
     }
 
-    const COLORS = getConnectionColors();
+    connectionColors = getConnectionColors();
 
     currentTone.node.outputs
         .forEach((o, oi) => renderConnection(
             C,
             currentTone.node, o,
-            COLORS[0][0][oi]
+            connectionColors[0][0][oi]
         ));
 
     Object
@@ -320,8 +327,8 @@ function renderChart() {
         .forEach((type, ti) => {
             if (ti !== eNodeType.Tone) {
                 type.forEach((node, ni) => node.outputs.length
-                    ? node.outputs.forEach(o => renderConnection(C, node, o, COLORS[ti][ni][o.outSlot]))
-                    : node.inputs.forEach(i => renderStub(C, node, i.inSlot, COLORS[ti][ni][i.inSlot]))
+                    ? node.outputs.forEach(o => renderConnection(C, node, o, connectionColors[ti][ni][o.outSlot]))
+                    : node.inputs.forEach(i => renderStub(C, node, i.inSlot, connectionColors[ti][ni][i.inSlot]))
                 )
             }
         });
@@ -469,46 +476,75 @@ function renderChartFg(e) {
         ],
         LOOP = P1[1] - P0[1] > -25;
 
-    C.beginPath();
-        C.moveTo(...P0);
-        if (LOOP) {
+    const COLORS = Array.from(
+        connectionColors
+            [selectedOutput.node.type]
+            [
+                Node.NODES[selectedOutput.node.type]
+                    .indexOf(selectedOutput.node)
+            ]
+            [selectedOutput.outSlot]
+    );
+
+    if (!COLORS || COLORS.length === 0) {
+        COLORS = [COLOR.toneStrokeDisabled];
+    }
+    [COLOR.bgTile, COLOR.bgTile, ...COLORS].forEach((color, ci) => {
+        C.strokeStyle = color;
+        C.lineWidth = WIDTH.toneStroke + (ci < 2 ? WIDTH.toneStrokeBorder * 2 : 0);
+        ci = ci === 0
+            ? (COLORS.length > 1 ? COLORS.length - 1 : 0)
+            : ci === 1
+            ? (COLORS.length > 1 ? COLORS.length - 2 : -1)
+            : ci - 2;
+        if (ci > -1) {
             const
-                TO_LEFT = P1[0] < P0[0],
-                OFFSET_X = 0,
-                OFFSET_Y = 0,
-                ARC_RAD = Math.min(WIDTH.toneStrokeArcRad * 0.5, Math.abs(P1[0] - P0[0]) / 8),
-                ARC_RAD_X = ARC_RAD * (TO_LEFT ? -1 : 1),
-                ARC_END_OUT = [
-                    P0[0] + ARC_RAD_X + OFFSET_X,
-                    P0[1] - ARC_RAD - WIDTH.nodeConnectKink + OFFSET_Y
-                ],
-                ARC_END_IN = [
-                    P1[0] - ARC_RAD_X + OFFSET_X,
-                    P1[1] + ARC_RAD + WIDTH.nodeConnectKink + OFFSET_Y
-                ];
-            C.arc(
-                ARC_END_OUT[0],
-                ARC_END_OUT[1] + ARC_RAD,
-                ARC_RAD,
-                TO_LEFT ? 0 : Math.PI, Math.PI * 1.5, TO_LEFT
-            );
-            bezierBetween(C, ARC_END_OUT, ARC_END_IN, true);
-            C.arc(
-                ARC_END_IN[0],
-                ARC_END_IN[1] - ARC_RAD,
-                ARC_RAD, Math.PI * 0.5, TO_LEFT ? Math.PI : 0, !TO_LEFT
-            );
-        } else {
-            P0[1] -= 1.5*WIDTH.nodeConnectKink;
-            C.lineTo(...P0);
-            bezierBetween(C, P0, P1);
+                OFFSET_D =
+                    Math.ceil((ci % 6) * 0.5) *
+                    (ci % 2 ? 1 : -1) *
+                    WIDTH.toneStroke * 1.25,
+                OFFSET_A = Math.atan2(P0[1] - P1[1], P0[0] - P1[0]) - (Math.PI * 0.5),
+                OFFSET_X = Math.cos(OFFSET_A) * OFFSET_D,
+                OFFSET_Y = Math.sin(OFFSET_A) * OFFSET_D;
+            C.beginPath();
+                C.moveTo(...P0);
+                if (LOOP) {
+                    const
+                        TO_LEFT = P1[0] < P0[0],
+                        ARC_RAD = Math.min(WIDTH.toneStrokeArcRad * 0.5, Math.abs(P1[0] - P0[0]) / 8),
+                        ARC_RAD_X = ARC_RAD * (TO_LEFT ? -1 : 1),
+                        ARC_END_OUT = [
+                            P0[0] + ARC_RAD_X + OFFSET_X,
+                            P0[1] - ARC_RAD - WIDTH.nodeConnectKink + OFFSET_Y
+                        ],
+                        ARC_END_IN = [
+                            P1[0] - ARC_RAD_X + OFFSET_X,
+                            P1[1] + ARC_RAD + OFFSET_Y
+                        ];
+                    C.arc(
+                        ARC_END_OUT[0],
+                        ARC_END_OUT[1] + ARC_RAD,
+                        ARC_RAD,
+                        TO_LEFT ? 0 : Math.PI, Math.PI * 1.5, TO_LEFT
+                    );
+                    bezierBetween(C, ARC_END_OUT, ARC_END_IN, true);
+                    C.arc(
+                        ARC_END_IN[0],
+                        ARC_END_IN[1] - ARC_RAD,
+                        ARC_RAD, Math.PI * 0.5, TO_LEFT ? Math.PI : 0, !TO_LEFT
+                    );
+                } else {
+                    C.lineTo(P0[0], P0[1] - WIDTH.nodeConnectKink*1.5);
+                    bezierBetween(
+                        C,
+                        [P0[0] + OFFSET_X, P0[1] - WIDTH.nodeConnectKink*1.5 + OFFSET_Y],
+                        [P1[0] + OFFSET_X, P1[1] + OFFSET_Y]
+                    );
+                    C.lineTo(P1[0], P1[1]);
+                }
+            C.stroke();
         }
-    C.lineWidth = WIDTH.toneStroke + 2*WIDTH.toneStrokeBorder;
-    C.strokeStyle = COLOR.bgTile;
-    C.stroke();
-    C.lineWidth = WIDTH.toneStroke;
-    C.strokeStyle = COLOR.toneStroke[0];
-    C.stroke();
+    });
 }
 
 function getOutputPosition(node, outI = 0, isInput = false) {
