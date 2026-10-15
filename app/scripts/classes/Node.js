@@ -49,9 +49,7 @@ export class Node {
 
         let RADIO_I;
         if (IS_TONE) {
-            while (Node.NODES[eNodeType.Tone].some(t => t.parentToneIndex === this.parentToneIndex)) {
-                this.parentToneIndex += 1;
-            }
+            this.parentToneIndex = child.index;
             RADIO_I = this.parentToneIndex;
         } else {
             this.parentToneIndex = currentTone?.index || 0;
@@ -260,6 +258,8 @@ export class Node {
             INDEX = Node.NODES[this.type].indexOf(this),
             ALL_INDEX = ACTIVE_NODES.indexOf(this);
 
+        console.log(ACTIVE_NODES, Node.NODES);
+
         for (let i = 0; i < Node.MAX_OUT; i++) {
             this.disconnect(i);
         }
@@ -270,6 +270,7 @@ export class Node {
         }
 
         if (IS_TONE) {
+            // Delete all Tex, Envel, Efx nodes of deleted Tone
             Object
                 .values(Node.NODES)
                 .flat()

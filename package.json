@@ -1,0 +1,23 @@
+{
+  "name": "tinytone",
+  "version": "1.0.0",
+  "description": "A web app and library created with WebAudio for creating, exporting, and using custom audio tones",
+  "main": "app/scripts/main.js",
+  "scripts": {
+    "build-library": "bash ./library/build.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NiallAins/tinytone.git"
+  },
+  "author": "Niall Ainsworth",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NiallAins/tinytone/issues"
+  },
+  "homepage": "https://github.com/NiallAins/tinytone#readme",
+  "devDependencies": {
+    "typescript": "^7.0.2",
+    "uglify-js": "^3.19.3"
+  }
+}

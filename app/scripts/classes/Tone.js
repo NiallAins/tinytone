@@ -12,15 +12,19 @@ export class Tone {
     
     focusedNode = null;
     node = null;
-    index;
+    index = 0;
 
     constructor() {
+        // Find first unique index
+        while (Node.NODES[eNodeType.Tone].some(t => t.parentToneIndex === this.index)) {
+            this.index += 1;
+        }
+
         this.node = new Node(
             this,
             eNodeType.Tone,
             () => setTone(this)
         );
-        this.index = Node.NODES[eNodeType.Tone].indexOf(this.node);
         this.node.EL.click();
     }
 

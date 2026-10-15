@@ -315,6 +315,7 @@ function renderChart() {
 
     connectionColors = getConnectionColors();
 
+    // Render Tone node outputs
     currentTone.node.outputs
         .forEach((o, oi) => renderConnection(
             C,
@@ -322,6 +323,7 @@ function renderChart() {
             connectionColors[0][0][oi]
         ));
 
+    // Render Tex, Envel, Efx node outputs
     Object
         .values(Node.NODES)
         .forEach((type, ti) => {
@@ -444,7 +446,13 @@ function getConnectionColors(node, ii, color, colors) {
             );
         currentTone.node.outputs.forEach(node => {
             const
-                TEX_I = Node.NODES[eNodeType.Tex].indexOf(node.node),
+                TEX_I =
+                    // Differnet starting colour for each Tone
+                    (currentTone.index * 2) +
+                    // Differnet colour for each Tex
+                    Node.NODES[eNodeType.Tex]
+                        .filter(t => t.parentToneIndex === currentTone.index)
+                        .indexOf(node.node),
                 TEX_COLOR = COLOR.toneStroke[TEX_I % COLOR.toneStroke.length];
             colors[0][0].push([TEX_COLOR]);
             getConnectionColors(node.node, 0, TEX_COLOR, colors);
@@ -553,7 +561,7 @@ function getOutputPosition(node, outI = 0, isInput = false) {
         ACTIVE_NODES = Node.NODES[TYPE]
             .filter(n => n.parentToneIndex === currentTone.index && !n.isArpeggChild),
         NODE_I = TYPE === eNodeType.Tone
-            ? node.child.index
+            ? Node.NODES[TYPE].indexOf(node)
             : ACTIVE_NODES.indexOf(node),
         OFFSET_X = ACTIVE_NODES
             .filter((_, ni) => ni < NODE_I)

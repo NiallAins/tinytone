@@ -83,13 +83,13 @@ export function setColors() {
         .map((_, i) => _cssVar('c-highlight-' + i));
 
     COLOR = {
-        bg:     _cssVar('c-bg'),
-        bgTile: _cssVar('c-bg-tile'),
-        bgXd:   _cssVar('c-bg-xd'),
-        fg:     _cssVar('c-fg'),
-        text:   _cssVar('c-text'),
-        textL:  _cssVar('c-text-l'),
-        axis:   _cssVar('c-axis'),
+        bg:         _cssVar('c-bg'),
+        bgTile:     _cssVar('c-bg-tile'),
+        bgXd:       _cssVar('c-bg-xd'),
+        fg:         _cssVar('c-fg'),
+        text:       _cssVar('c-text'),
+        textL:      _cssVar('c-text-l'),
+        axis:       _cssVar('c-axis'),
         nodeStroke: _cssVar('c-primary'),
         efxStroke: [
             HIGHLIGHTS[1],

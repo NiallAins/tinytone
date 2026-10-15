@@ -19,16 +19,18 @@
   --w-node-connect-bottom: 0.5rem;
   --w-node-connect-kink: 0.625rem;
   --w-thumb-rad: 0.5rem;
-  --c-highlight-count: 10;
-  --c-text: var(--c-fg);
-  --c-text-l: var(--c-fg-l);
-  --c-axis: var(--c-fg);
-  --c-primary: dodgerblue;
 }
 @media (max-width: 56rem) {
   .body {
     --w-thumb-rad: 0.625rem;
   }
+}
+.body {
+  --c-highlight-count: 10;
+  --c-text: var(--c-fg);
+  --c-text-l: var(--c-fg-l);
+  --c-axis: var(--c-fg);
+  --c-primary: dodgerblue;
 }
 .body--theme-light {
   --c-bg: #e2e9f0;
@@ -56,7 +58,7 @@
   --c-bg: #181822;
   --c-bg-secondary: #24242e;
   --c-bg-tile: #181822;
-  --c-bg-xd: #444444;
+  --c-bg-xd: #666666;
   --c-bg-d: #333333;
   --c-fg: #eeeeee;
   --c-fg-l: #a9a9a9;

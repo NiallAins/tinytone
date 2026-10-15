@@ -2,18 +2,27 @@
 
 ## Development
 
-Before compiling library install:
+### Web app
+
+Web app development can be done without build scripts, as all modules are `.js`.\
+Open `index.html` with local server to view app.\
+VsCode with extension "Live Server" recommended option.
+
+### Library
+
+Before compiling library install dev packages with:
 
 ```bash
-npm install uglify-js -g
-npm install typescript -g
+nvm use 22 # Optional
+npm install
 ```
 
 Compile and build library by running:
 
 ```bash
-.\library\build.sh
+npm run build-library
 ```
+
 
 ## To do
 
@@ -27,8 +36,6 @@ Compile and build library by running:
 
 - test volume issues
 - cross-browser
-- cross-system
-- cross-device
 
 
 ### Must have features
@@ -44,11 +51,9 @@ Compile and build library by running:
     - bypass - only envel and efx
 - Hide unusable outputs / inputs
     - Envel with no effect
-    - envel inp when envel out selected
     - efx out when no second efx
 - more presets
 - more reverbs
-- draw connector cord when dragging
 - Animated volumes on nodes
 
 
